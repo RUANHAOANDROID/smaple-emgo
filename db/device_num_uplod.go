@@ -3,7 +3,7 @@ package db
 import "database/sql"
 
 type DeviceNumUpload struct {
-	ID        sql.NullInt32
+	ID        uint `gorm:"primaryKey"`
 	DeviceNo  sql.NullString
 	BizDate   sql.NullString
 	PeopleNum sql.NullString

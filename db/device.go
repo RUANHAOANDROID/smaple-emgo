@@ -3,7 +3,7 @@ package db
 import "database/sql"
 
 type Device struct {
-	ID            string
+	ID            uint `gorm:"primaryKey"`
 	DeviceNo      sql.NullString
 	DeviceIp      sql.NullString
 	SerialNumber  sql.NullString

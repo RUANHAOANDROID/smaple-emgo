@@ -1,10 +1,10 @@
 package db
 
 import (
-	"database/sql"
 	"fmt"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 	"os"
 	"strings"
 )
@@ -16,6 +16,7 @@ func init() {
 	if DB == nil {
 		db, err := gorm.Open(sqlite.Open("emcs.db"), &gorm.Config{
 			NowFunc: UTC,
+			Logger:  logger.Default.LogMode(logger.Info),
 		})
 		if err != nil {
 			fmt.Println("open db error")
@@ -30,9 +31,7 @@ func init() {
 	}
 }
 func createUser() {
-	user := SysUser{UserName: sql.NullString{
-		String: "admin", Valid: true,
-	}, UserPwd: sql.NullString{String: "666666", Valid: true}}
+	user := SysUser{UserName: "admin", UserPwd: "666666"}
 	if !DB.Migrator().HasTable(&user) {
 		DB.AutoMigrate(&user)
 		DB.Create(&user)

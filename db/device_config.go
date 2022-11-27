@@ -5,7 +5,7 @@ import (
 )
 
 type DeviceConfig struct {
-	ID              string
+	ID              uint `gorm:"primaryKey"`
 	ManufacturerId1 sql.NullString
 	ManufacturerId2 sql.NullString
 	Buffer          sql.NullString

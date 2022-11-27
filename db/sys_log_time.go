@@ -3,6 +3,6 @@ package db
 import "database/sql"
 
 type SysLogTime struct {
-	ID       int32
+	ID       uint `gorm:"primaryKey"`
 	LastTime sql.NullTime
 }

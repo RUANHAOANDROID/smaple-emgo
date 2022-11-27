@@ -28,8 +28,8 @@ func create() *logrus.Logger {
 	}
 	Log = logrus.New()
 	Log.Formatter = new(logrus.JSONFormatter)
-	Log.Formatter = new(logrus.TextFormatter)                  //default
-	Log.Formatter.(*logrus.TextFormatter).DisableColors = true // remove colors
+	Log.Formatter = new(logrus.TextFormatter)                   //default
+	Log.Formatter.(*logrus.TextFormatter).DisableColors = false // remove colors
 	Log.Level = logrus.TraceLevel
 	Log.Out = os.Stdout
 	os.Mkdir(logPath, os.ModePerm) //在运行程序的目录下创建logs目录
