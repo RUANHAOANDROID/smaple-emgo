@@ -1,6 +1,7 @@
 package main
 
 import (
+	"emcs-relay-go/api"
 	"github.com/gin-gonic/gin"
 	_ "github.com/sirupsen/logrus"
 	"net/http"
@@ -19,7 +20,7 @@ func StartRouter() *gin.Engine {
 	topGroup := r.Group("/")        //页面组
 	adminGroup := r.Group("/admin") //api组
 	handlerHtml(topGroup)           //处理html组
-	HandlerAdmin(adminGroup)        //处理API配置组
+	api.HandlerAdmin(adminGroup)    //处理API配置组
 	return r
 }
 func handlerHtml(r *gin.RouterGroup) {

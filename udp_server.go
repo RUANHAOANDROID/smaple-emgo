@@ -1,13 +1,12 @@
 package main
 
 import (
-	"database/sql"
 	"emcs-relay-go/icbc"
 	"fmt"
 	"net"
 )
 
-func StartUDPServer(address string, db *sql.DB) {
+func StartUDPServer(address string) {
 	// 创建 服务器 UDP 地址结构。指定 IP + port
 	udpAddr, err := net.ResolveUDPAddr("udp", address)
 	if err != nil {
