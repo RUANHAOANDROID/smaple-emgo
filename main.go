@@ -13,6 +13,5 @@ func main() {
 	//启动GIN HTTP服务
 	trustedProxies := []string{"127.0.0.1", "localhost"}
 	api.BindAddress(trustedProxies)
-	api.Run(":8088")
-	//api.Gin.Run(":8088")
+	api.Run(":8888")
 }

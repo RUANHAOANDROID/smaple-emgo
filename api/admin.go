@@ -2,6 +2,7 @@ package api
 
 import (
 	"emcs-relay-go/db"
+	"emcs-relay-go/logger"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -24,6 +25,25 @@ func HandlerAdmin(r *gin.RouterGroup) {
 	r.POST("/heartbeat", heartbeat())
 	r.POST("/getNumToday", getNumToday())
 }
+func getNumToday() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		c.JSON(http.StatusOK, ResponseSuccess(any(100)))
+	}
+}
+func deviceList() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		var devices []db.Device
+		db.DB.Find(&devices)
+		responseSuccess := ResponseSuccess(devices)
+		logger.Log.Debug(responseSuccess)
+		c.JSON(http.StatusOK, responseSuccess)
+	}
+}
+func getRecentOperateLog() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		c.JSON(http.StatusOK, ResponseSuccess(any("保存成功")))
+	}
+}
 func updatePassword() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		c.String(http.StatusOK, "保存成功")
@@ -31,9 +51,21 @@ func updatePassword() gin.HandlerFunc {
 }
 func addDevice() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		c.String(http.StatusOK, "保存成功")
+		device := db.Device{}
+		err := c.ShouldBind(&device)
+		if err != nil {
+			error(c, "参数错误")
+			return
+		}
+		err = db.AddDevice(device)
+		if err != nil {
+			error(c, err.Error())
+			return
+		}
+		c.JSON(http.StatusOK, ResponseSuccess(any("OK")))
 	}
 }
+
 func getCurrentConfig() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		c.String(http.StatusOK, "保存成功")
@@ -44,19 +76,10 @@ func numUploadTest() gin.HandlerFunc {
 		c.String(http.StatusOK, "保存成功")
 	}
 }
-func getRecentOperateLog() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		c.String(http.StatusOK, "保存成功")
-	}
-}
+
 func heartbeat() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		c.String(http.StatusOK, "保存成功")
-	}
-}
-func getNumToday() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		c.String(http.StatusOK, "保存成功")
+		c.JSON(http.StatusOK, ResponseSuccess(any("")))
 	}
 }
 
@@ -80,11 +103,7 @@ func deleteDevice() gin.HandlerFunc {
 		c.String(http.StatusOK, "保存成功")
 	}
 }
-func deviceList() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		c.String(http.StatusOK, "保存成功")
-	}
-}
+
 func openGateTest() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		c.String(http.StatusOK, "保存成功")

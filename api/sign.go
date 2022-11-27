@@ -16,7 +16,7 @@ func SignHandler() gin.HandlerFunc {
 			return
 		}
 		body, _ := io.ReadAll(c.Request.Body)
-		apiRequest := ApiRequest[map[string]interface{}]{}
+		apiRequest := Request[map[string]interface{}]{}
 		json.Unmarshal(body, &apiRequest)
 		fmt.Println(body)
 		isOK := apiRequest.CheckSign()

@@ -11,7 +11,7 @@ func init() {
 func RegisterRouters() {
 	tg := Gin.Group("/")
 	ag := Gin.Group("/admin")
-	vmg := Gin.Group("/admin")
+	vmg := Gin.Group("/updater")
 	handlerHtml(tg)
 	HandlerAdmin(ag)
 	HandlerVersionManager(vmg)
