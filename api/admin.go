@@ -68,7 +68,12 @@ func addDevice() gin.HandlerFunc {
 
 func getCurrentConfig() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		c.String(http.StatusOK, "保存成功")
+		var configs []db.DeviceConfig
+		err := db.GetConfig(configs)
+		if err != nil {
+			error(c, "查询失败")
+		}
+		c.JSON(http.StatusOK, ResponseSuccess(configs))
 	}
 }
 func numUploadTest() gin.HandlerFunc {
@@ -100,7 +105,18 @@ func saveConfig() gin.HandlerFunc {
 }
 func deleteDevice() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		c.String(http.StatusOK, "保存成功")
+		device := db.Device{}
+		err := c.BindJSON(&device)
+		if err != nil {
+			error(c, err.Error())
+			return
+		}
+		dbError := db.DeleteDevice(device.Id)
+		if dbError != nil {
+			error(c, dbError.Error())
+			return
+		}
+		c.JSON(http.StatusOK, ResponseSuccess("OK"))
 	}
 }
 

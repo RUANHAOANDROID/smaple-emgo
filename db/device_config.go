@@ -28,6 +28,9 @@ type DeviceConfig struct {
 	ConfigUrl       sql.NullString
 }
 
+func GetConfig(config []DeviceConfig) error {
+	return DB.First(&config).Error
+}
 func SaveConfig(dcf DeviceConfig) {
 	//var sql = "insert into device_config(" +
 	//	"manufacturer_id1," +

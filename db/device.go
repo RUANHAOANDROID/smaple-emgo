@@ -33,3 +33,7 @@ func AddDevice(device Device) error {
 	logger.Log.Info(device)
 	return err
 }
+func DeleteDevice(deviceId string) error {
+	err := DB.Where("id=?", deviceId).Delete(&Device{}).Error
+	return err
+}
