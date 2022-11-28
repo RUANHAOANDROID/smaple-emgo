@@ -1,84 +1,36 @@
 package db
 
-import (
-	"database/sql"
-)
-
 type DeviceConfig struct {
-	Id              uint `gorm:"primaryKey"`
-	ManufacturerId1 sql.NullString
-	ManufacturerId2 sql.NullString
-	Buffer          sql.NullString
-	DelayedTime     sql.NullString
-	InvalidTime     sql.NullString
-	CheckUrl        sql.NullString
-	WriteOffUrl     sql.NullString
-	NumUpUrl        sql.NullString
-	NumUpTime       sql.NullString
-	HeartbeatUrl    sql.NullString
-	HeartbeatTime   sql.NullString
-	TrueVoice1      sql.NullString
-	FalseVoice1     sql.NullString
-	TrueVoice2      sql.NullString
-	FalseVoice2     sql.NullString
-	TrueVoice3      sql.NullString
-	FalseVoice3     sql.NullString
-	TrueVoice4      sql.NullString
-	FalseVoice4     sql.NullString
-	ConfigUrl       sql.NullString
+	Id              string `json:"id" gorm:"primaryKey"`
+	Buffer          string `json:"buffer"`
+	CheckUrl        string `json:"checkUrl"`
+	ConfigUrl       string `json:"configUrl"`
+	DeFalseText     string `json:"deFalseText"`
+	DeFalseVoice    string `json:"deFalseVoice"`
+	DeTrueText      string `json:"deTrueText"`
+	DeTrueVoice     string `json:"deTrueVoice"`
+	DelayedTime     string `json:"delayedTime"`
+	FalseVoice1     string `json:"falseVoice1"`
+	FalseVoice2     string `json:"falseVoice2"`
+	FalseVoice3     string `json:"falseVoice3"`
+	FalseVoice4     string `json:"falseVoice4"`
+	HeartbeatTime   string `json:"heartbeatTime"`
+	HeartbeatUrl    string `json:"heartbeatUrl"`
+	InvalidTime     string `json:"invalidTime"`
+	ManufacturerId1 string `json:"manufacturerId1"`
+	ManufacturerId2 string `json:"manufacturerId2"`
+	NumUpTime       string `json:"numUpTime"`
+	NumUpUrl        string `json:"numUpUrl"`
+	TrueVoice1      string `json:"trueVoice1"`
+	TrueVoice2      string `json:"trueVoice2"`
+	TrueVoice3      string `json:"trueVoice3"`
+	TrueVoice4      string `json:"trueVoice4"`
+	WriteOffUrl     string `json:"writeOffUrl"`
 }
 
 func GetConfig(config []DeviceConfig) error {
 	return DB.First(&config).Error
 }
-func SaveConfig(dcf DeviceConfig) {
-	//var sql = "insert into device_config(" +
-	//	"manufacturer_id1," +
-	//	"manufacturer_id2," +
-	//	"buffer," +
-	//	"delayed_time," +
-	//	"invalid_time," +
-	//	"check_url," +
-	//	"write_off_url," +
-	//	"num_up_url," +
-	//	"num_up_time," +
-	//	"heartbeat_url," +
-	//	"heartbeat_time," +
-	//	"true_voice1," +
-	//	"false_voice1," +
-	//	"true_voice2," +
-	//	"false_voice2," +
-	//	"true_voice3," +
-	//	"false_voice3," +
-	//	"true_voice4," +
-	//	"false_voice4," +
-	//	"config_url" +
-	//	") VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ? )"
-	//stmt, err := db.Prepare(sql)
-	//if err != nil {
-	//	logger.E(err)
-	//}
-	//stmt.Exec(sql,
-	//	dcf.ManufacturerId1,
-	//	dcf.ManufacturerId2,
-	//	dcf.Buffer,
-	//	dcf.DelayedTime,
-	//	dcf.InvalidTime,
-	//	dcf.CheckUrl,
-	//	dcf.ConfigUrl,
-	//	dcf.WriteOffUrl,
-	//	dcf.NumUpUrl,
-	//	dcf.NumUpTime,
-	//	dcf.HeartbeatUrl,
-	//	dcf.HeartbeatTime,
-	//	dcf.TrueVoice1,
-	//	dcf.FalseVoice1,
-	//	dcf.TrueVoice2,
-	//	dcf.FalseVoice2,
-	//	dcf.TrueVoice3,
-	//	dcf.FalseVoice3,
-	//	dcf.TrueVoice4,
-	//	dcf.FalseVoice4,
-	//	dcf.ConfigUrl,
-	//)
+func SaveConfig(dcf DeviceConfig) error {
+	return DB.Create(&dcf).Error
 }

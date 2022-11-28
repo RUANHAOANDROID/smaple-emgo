@@ -100,7 +100,18 @@ func getConfig() gin.HandlerFunc {
 }
 func saveConfig() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		c.String(http.StatusOK, "保存成功")
+		dc := db.DeviceConfig{}
+		pErr := c.BindJSON(&dc)
+		if pErr != nil {
+			error(c, pErr.Error())
+			return
+		}
+		dErr := db.SaveConfig(dc)
+		if dErr != nil {
+			error(c, dErr.Error())
+			return
+		}
+		c.JSON(http.StatusOK, ResponseSuccess("ok"))
 	}
 }
 func deleteDevice() gin.HandlerFunc {
