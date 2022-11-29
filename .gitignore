@@ -1,3 +1,6 @@
 /emcs.db
 /build/
 /logs/
+.idea/dataSources.xml
+*.log
+*.log_symlink
