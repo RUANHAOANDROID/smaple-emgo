@@ -1,6 +1,7 @@
 package api
 
 import (
+	"emcs-relay-go/configs"
 	"emcs-relay-go/logger"
 	"github.com/gin-gonic/gin"
 	_ "github.com/sirupsen/logrus"
@@ -24,11 +25,11 @@ func ginConfig() *gin.Engine {
 	r.LoadHTMLGlob("static/*.html")
 	return r
 }
-func BindAddress(trustedProxies []string) {
+
+func Run() {
+	trustedProxies := []string{configs.HttpLoopAddr, configs.Localhost}
 	Gin.SetTrustedProxies(trustedProxies)
-	logger.Log.Info(trustedProxies)
-}
-func Run(addr ...string) {
-	Gin.Run(addr...)
-	logger.Log.Info(addr)
+	logger.Log.Info("http" + "://" + configs.HttpLoopAddr + configs.HttpListenPort + "/index")
+	logger.Log.Info("http" + "://" + configs.Localhost + configs.HttpListenPort + "/index")
+	Gin.Run(configs.HttpListenPort)
 }

@@ -1,25 +1,27 @@
 package udp
 
 import (
-	"emcs-relay-go/icbc"
+	"emcs-relay-go/api"
+	"emcs-relay-go/logger"
 	"fmt"
 	"net"
 )
 
-func StartUDPServer(address string) {
+func Run(address string) {
 	// 创建 服务器 UDP 地址结构。指定 IP + port
 	udpAddr, err := net.ResolveUDPAddr("udp", address)
 	if err != nil {
-		fmt.Println("ResolveUDPAddr err:", err)
+		logger.Log.Error(err)
 		return
 	}
+	logger.Log.Info(udpAddr)
 	// 监听 客户端连接
 	conn, err := net.ListenUDP("udp", udpAddr)
 	if err != nil {
 		fmt.Println("net.ListenUDP err:", err)
 		return
 	}
-
+	logger.Log.Info(conn)
 	go func() {
 		defer conn.Close()
 		for {
@@ -36,8 +38,9 @@ func HandelUDP(conn *net.UDPConn) {
 		return
 	}
 	msg := string(buf[:len])
+	//logger.Log.Info(msg)
 	fmt.Println(msg)
-	bytes := []byte(icbc.CheckTicket())
+	bytes := []byte(api.CheckTicket())
 	//var str =[]byte(" $F12345678F$")
 	conn.WriteToUDP(bytes, clientAddress) // 简单回写数据给客户端
 }

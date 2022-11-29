@@ -54,12 +54,12 @@ func addDevice() gin.HandlerFunc {
 		device := db.Device{}
 		err := c.ShouldBind(&device)
 		if err != nil {
-			error(c, "参数错误")
+			ResError(c, "参数错误")
 			return
 		}
 		err = db.AddDevice(device)
 		if err != nil {
-			error(c, err.Error())
+			ResError(c, err.Error())
 			return
 		}
 		c.JSON(http.StatusOK, ResponseSuccess(any("OK")))
@@ -71,7 +71,7 @@ func getCurrentConfig() gin.HandlerFunc {
 		var configs []db.DeviceConfig
 		err := db.GetConfig(configs)
 		if err != nil {
-			error(c, "查询失败")
+			ResError(c, "查询失败")
 		}
 		c.JSON(http.StatusOK, ResponseSuccess(configs))
 	}
@@ -95,7 +95,19 @@ func checkTicketTest() gin.HandlerFunc {
 }
 func getConfig() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		c.String(http.StatusOK, "保存成功")
+		request := Request[WebGetConfig]{}
+		err := c.BindJSON(&request)
+		if err != nil {
+			ResError(c, "参数错误")
+			return
+		}
+		wgc := request.Data
+		result, err := RequestConfig(wgc.ConfigUrl, wgc.Id, request.Timestamp)
+		if err != nil {
+			ResError(c, "获取配置失败"+err.Error())
+			return
+		}
+		c.JSON(http.StatusOK, result)
 	}
 }
 func saveConfig() gin.HandlerFunc {
@@ -103,12 +115,12 @@ func saveConfig() gin.HandlerFunc {
 		dc := db.DeviceConfig{}
 		pErr := c.BindJSON(&dc)
 		if pErr != nil {
-			error(c, pErr.Error())
+			ResError(c, pErr.Error())
 			return
 		}
 		dErr := db.SaveConfig(dc)
 		if dErr != nil {
-			error(c, dErr.Error())
+			ResError(c, dErr.Error())
 			return
 		}
 		c.JSON(http.StatusOK, ResponseSuccess("ok"))
@@ -119,12 +131,12 @@ func deleteDevice() gin.HandlerFunc {
 		device := db.Device{}
 		err := c.BindJSON(&device)
 		if err != nil {
-			error(c, err.Error())
+			ResError(c, err.Error())
 			return
 		}
 		dbError := db.DeleteDevice(device.Id)
 		if dbError != nil {
-			error(c, dbError.Error())
+			ResError(c, dbError.Error())
 			return
 		}
 		c.JSON(http.StatusOK, ResponseSuccess("OK"))

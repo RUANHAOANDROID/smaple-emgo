@@ -15,6 +15,10 @@ func SignHandler() gin.HandlerFunc {
 		if !configs.EnableSign {
 			return
 		}
+		url := c.Request.URL.Path
+		if url == "/admin/getConfig" {
+			return
+		}
 		body, _ := io.ReadAll(c.Request.Body)
 		apiRequest := Request[map[string]interface{}]{}
 		json.Unmarshal(body, &apiRequest)

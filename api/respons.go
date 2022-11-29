@@ -8,19 +8,19 @@ import (
 var success = 1
 var fail = 0
 
-type Response[T interface{}] struct {
+type WebResponse[T interface{}] struct {
 	Code    int    `json:"code"`
 	Message string `json:"message"`
 	Data    T      `json:"data"`
 }
 
-func ResponseError(msg string) Response[string] {
-	return Response[string]{Code: fail, Message: msg, Data: ""}
+func ResponseError(msg string) WebResponse[string] {
+	return WebResponse[string]{Code: fail, Message: msg, Data: ""}
 }
-func ResponseSuccess(data any) Response[any] {
-	return Response[any]{Code: success, Message: "SUCCESS", Data: data}
+func ResponseSuccess(data any) WebResponse[any] {
+	return WebResponse[any]{Code: success, Message: "SUCCESS", Data: data}
 }
-func error(c *gin.Context, msg string) {
+func ResError(c *gin.Context, msg string) {
 	c.JSON(http.StatusOK, ResponseError(msg))
 	return
 }

@@ -5,6 +5,7 @@ go 1.19
 require (
 	github.com/gin-gonic/gin v1.8.1
 	github.com/goccy/go-json v0.9.7
+	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/lestrrat/go-file-rotatelogs v0.0.0-20180223000712-d3151e2a480f
 	github.com/rifflock/lfshook v0.0.0-20180920164130-b9218ef580f5
 	github.com/sirupsen/logrus v1.9.0
@@ -12,7 +13,7 @@ require (
 	gorm.io/gorm v1.24.2
 )
 
-require github.com/jinzhu/inflection v1.0.0 // indirect
+require github.com/webview/webview v0.0.0-20221122140723-dbc78641c94c
 
 require (
 	github.com/fastly/go-utils v0.0.0-20180712184237-d95a45783239 // indirect
