@@ -24,7 +24,9 @@ func SignHandler() gin.HandlerFunc {
 			//c.Request.Body = io.NopCloser(bytes.NewBuffer(body)) //原始的body放回去
 			marshal, err := json.Marshal(apiRequest.Data)
 			if err != nil {
-				fmt.Println("解析data时错误")
+				fmt.Println("request body format error")
+				c.JSON(http.StatusOK, ResponseError("request body format error"))
+				return
 			}
 			c.Request.Body = io.NopCloser(bytes.NewBuffer(marshal)) //new body
 			c.Next()

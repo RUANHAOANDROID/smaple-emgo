@@ -3,7 +3,7 @@ package db
 import "database/sql"
 
 type DeviceNumUpload struct {
-	ID uint `gorm:"primaryKey"`
+	Id uint `gorm:"primaryKey"`
 	// 设备编号
 	DeviceNo sql.NullString
 	// 生成时间

@@ -1,8 +1,7 @@
 package db
 
 type SysUser struct {
-	Id       uint `gorm:"primaryKey"`
-	UserName string
+	UserName string `gorm:"primaryKey"`
 	UserPwd  string
 }
 
