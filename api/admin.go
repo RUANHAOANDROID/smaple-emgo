@@ -146,14 +146,14 @@ func login() gin.HandlerFunc {
 			c.JSON(http.StatusOK, ResponseError("参数错误"))
 			return
 		}
-		dbUser := db.SysUser{}
-		db.DB.Where(&db.SysUser{
-			UserName: requestUser.UserName,
-			UserPwd:  requestUser.Password,
-		},
-		).Take(&dbUser)
-		if requestUser.UserName != dbUser.UserName {
+		err = db.UserExists(requestUser.UserName)
+		if err != nil {
 			c.JSON(http.StatusOK, ResponseError("用户不存在"))
+			return
+		}
+		err = db.UserVerify(requestUser.UserName, requestUser.Password)
+		if err != nil {
+			c.JSON(http.StatusOK, ResponseError("密码错误"))
 			return
 		}
 		response := ResponseSuccess(any("ok"))

@@ -2,7 +2,7 @@ package api
 
 import (
 	"bytes"
-	"emcs-relay-go/config"
+	"emcs-relay-go/configs"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/goccy/go-json"
@@ -12,7 +12,7 @@ import (
 
 func SignHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		if !config.EnableSign {
+		if !configs.EnableSign {
 			return
 		}
 		body, _ := io.ReadAll(c.Request.Body)
