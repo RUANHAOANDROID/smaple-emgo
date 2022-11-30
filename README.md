@@ -6,6 +6,5 @@ go 简单的示例包括了：
 - http client
 - udp 
 - log
-- sign
 - sqlite gorm
 
