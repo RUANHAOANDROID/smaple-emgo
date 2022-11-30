@@ -22,7 +22,7 @@ func ginConfig() *gin.Engine {
 	r.Static("/static/css", "./static/static/css")
 	r.Static("/static/img", "./static/static/img")
 	r.Static("/static/fonts", "./static/static/fonts")
-	r.LoadHTMLGlob("static/*.html")
+	//r.LoadHTMLGlob("/static/index.html")
 	return r
 }
 

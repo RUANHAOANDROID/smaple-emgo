@@ -13,7 +13,10 @@ require (
 	gorm.io/gorm v1.24.2
 )
 
-require github.com/webview/webview v0.0.0-20221122140723-dbc78641c94c
+require (
+	github.com/rakyll/statik v0.1.7
+	github.com/webview/webview v0.0.0-20221122140723-dbc78641c94c
+)
 
 require (
 	github.com/fastly/go-utils v0.0.0-20180712184237-d95a45783239 // indirect
