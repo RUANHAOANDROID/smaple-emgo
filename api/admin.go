@@ -2,7 +2,7 @@ package api
 
 import (
 	"emcs-relay-go/db"
-	"emcs-relay-go/logger"
+	"emcs-relay-go/utils"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -35,7 +35,7 @@ func deviceList() gin.HandlerFunc {
 		var devices []db.Device
 		db.DB.Find(&devices)
 		responseSuccess := ResponseSuccess(devices)
-		logger.Log.Debug(responseSuccess)
+		utils.Log.Debug(responseSuccess)
 		c.JSON(http.StatusOK, responseSuccess)
 	}
 }

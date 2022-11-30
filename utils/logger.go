@@ -1,4 +1,4 @@
-package logger
+package utils
 
 import (
 	"bytes"
@@ -16,9 +16,6 @@ const logPath = "logs/"
 var Log *logrus.Logger
 
 type mineFormatter struct{}
-
-const TimeFormat = "2006-01-02 15:04:05"
-const TimeFormatDay = "2006-01-02"
 
 func init() {
 	Log = create()

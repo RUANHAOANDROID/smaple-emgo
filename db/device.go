@@ -2,7 +2,7 @@ package db
 
 import (
 	"database/sql"
-	"emcs-relay-go/logger"
+	"emcs-relay-go/utils"
 )
 
 type Device struct {
@@ -30,7 +30,7 @@ type Device struct {
 func AddDevice(device Device) error {
 	err := DB.Create(&device).Error
 
-	logger.Log.Info(device)
+	utils.Log.Info(device)
 	return err
 }
 func DeleteDevice(deviceId string) error {

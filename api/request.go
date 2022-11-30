@@ -3,7 +3,7 @@ package api
 import (
 	"crypto/md5"
 	"emcs-relay-go/configs"
-	"emcs-relay-go/logger"
+	"emcs-relay-go/utils"
 	"encoding/json"
 	"fmt"
 	"strconv"
@@ -37,8 +37,8 @@ func Sign(aJson any, timeLong int64) EmcsRequest[any] {
 	md5Str := "data=" + string(bodyByte) + "&key=" + configs.EmcsMD5Key + "&timestamp=" + javaL
 	hash := md5.Sum([]byte(md5Str))
 	md5 := fmt.Sprintf("%x", hash)
-	logger.Log.Info(md5Str)
-	logger.Log.Info(md5)
+	utils.Log.Info(md5Str)
+	utils.Log.Info(md5)
 	return EmcsRequest[any]{
 		Data:      aJson,
 		Sign:      md5,

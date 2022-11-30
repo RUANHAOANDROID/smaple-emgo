@@ -2,7 +2,7 @@ package api
 
 import (
 	"emcs-relay-go/configs"
-	"emcs-relay-go/logger"
+	"emcs-relay-go/utils"
 	"github.com/gin-gonic/gin"
 	_ "github.com/sirupsen/logrus"
 )
@@ -11,7 +11,7 @@ var Gin *gin.Engine
 
 func init() {
 	if Gin == nil {
-		logger.Log.Info("start web server gin init ")
+		utils.Log.Info("start web server gin init ")
 		Gin = ginConfig()
 	}
 }
@@ -29,7 +29,7 @@ func ginConfig() *gin.Engine {
 func Run() {
 	trustedProxies := []string{configs.HttpLoopAddr, configs.Localhost}
 	Gin.SetTrustedProxies(trustedProxies)
-	logger.Log.Info("http" + "://" + configs.HttpLoopAddr + configs.HttpListenPort + "/index")
-	logger.Log.Info("http" + "://" + configs.Localhost + configs.HttpListenPort + "/index")
+	utils.Log.Info("http" + "://" + configs.HttpLoopAddr + configs.HttpListenPort + "/index")
+	utils.Log.Info("http" + "://" + configs.Localhost + configs.HttpListenPort + "/index")
 	Gin.Run(configs.HttpListenPort)
 }

@@ -19,7 +19,7 @@ func init() {
 			Logger:  logger.Default.LogMode(logger.Info),
 		})
 		if err != nil {
-			fmt.Println("open db error")
+			utils.PrintErr(err)
 		}
 		DB = db
 		createUser()
@@ -40,31 +40,36 @@ func createUser() {
 func createDevice() {
 	dst := &Device{}
 	if !DB.Migrator().HasTable(dst) {
-		DB.AutoMigrate(dst)
+		err := DB.AutoMigrate(dst)
+		utils.PrintErr(err)
 	}
 }
 func createDeviceConfig() {
 	dst := &DeviceConfig{}
 	if !DB.Migrator().HasTable(dst) {
-		DB.AutoMigrate(&DeviceConfig{})
+		err := DB.AutoMigrate(&DeviceConfig{})
+		utils.PrintErr(err)
 	}
 }
 func createNumUpLod() {
 	dst := &DeviceNumUpload{}
 	if !DB.Migrator().HasTable(dst) {
-		DB.AutoMigrate(dst)
+		err := DB.AutoMigrate(dst)
+		utils.PrintErr(err)
 	}
 }
 func createSysLog() {
 	dst := &SysLog{}
 	if !DB.Migrator().HasTable(dst) {
-		DB.AutoMigrate(dst)
+		err := DB.AutoMigrate(dst)
+		utils.PrintErr(err)
 	}
 }
 func createSysLogTime() {
 	dst := &SysLogTime{}
 	if !DB.Migrator().HasTable(dst) {
-		DB.AutoMigrate(dst)
+		err := DB.AutoMigrate(dst)
+		utils.PrintErr(err)
 	}
 }
 func createTab() {
