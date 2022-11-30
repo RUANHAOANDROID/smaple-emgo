@@ -14,14 +14,13 @@ func Run(address string) {
 		logger.Log.Error(err)
 		return
 	}
-	logger.Log.Info(udpAddr)
 	// 监听 客户端连接
 	conn, err := net.ListenUDP("udp", udpAddr)
 	if err != nil {
-		fmt.Println("net.ListenUDP err:", err)
+		logger.Log.Error(err)
 		return
 	}
-	logger.Log.Info(conn)
+	logger.Log.Info("UDP Listen", udpAddr)
 	go func() {
 		defer conn.Close()
 		for {

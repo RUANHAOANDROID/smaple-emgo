@@ -32,12 +32,12 @@ func init() {
 	logger.Log.Info("time now Hour=", nowTime.Hour())
 	logger.Log.Info("time now Minute=", nowTime.Minute())
 	logger.Log.Info("time now Second=", nowTime.Second())
-	logger.Log.Info("timestamp unix(java long) =", nowTime.Unix())
-	logger.Log.Info("Format2HMS=", Fmt2HMS(time.Now()))
-	logger.Log.Info("Format2Day=", Fmt2Day(time.Now()))
-	logger.Log.Info("Format2Month=", Fmt2Month(time.Now()))
-	logger.Log.Info("int64 timestamp to Unix", time.Unix(1669784046, 0))
-	logger.Log.Info("string timestamp to Unix", Sec2Time("1669784046"))
+	logger.Log.Info("time now timestamp=", nowTime.Unix())
+	logger.Log.Info("time now Format2HMS=", Fmt2HMS(time.Now()))
+	logger.Log.Info("time now Format2Day=", Fmt2Day(time.Now()))
+	logger.Log.Info("time now Format2Month=", Fmt2Month(time.Now()))
+	logger.Log.Info("time int64 timestamp to Unix", time.Unix(1669784046, 0))
+	logger.Log.Info("time string timestamp to Unix", Sec2Time("1669784046"))
 }
 
 // Local returns the current Coordinated Universal Time (CST or ..).
