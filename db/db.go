@@ -1,6 +1,7 @@
 package db
 
 import (
+	"emcs-relay-go/utils"
 	"fmt"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
@@ -11,11 +12,10 @@ import (
 
 var DB *gorm.DB
 
-// Set UTC as the default for created and updated timestamps.
 func init() {
 	if DB == nil {
 		db, err := gorm.Open(sqlite.Open("emcs.db"), &gorm.Config{
-			NowFunc: UTC,
+			NowFunc: utils.Local,
 			Logger:  logger.Default.LogMode(logger.Info),
 		})
 		if err != nil {

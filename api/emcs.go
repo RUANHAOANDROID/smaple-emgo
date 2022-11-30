@@ -23,6 +23,7 @@ type EmcsResponse[T interface{}] struct {
 }
 
 func RequestConfig(url string, id string, timestamp int64) (WebResponse[any], error) {
+	logger.Log.Info("request getConfig", url, id)
 	getConf := GetConfigEmcs{
 		SerialNum: id,
 	}

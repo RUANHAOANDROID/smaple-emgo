@@ -9,7 +9,6 @@ import (
 
 func main() {
 	udp.Run(configs.UDPListenAddr)
-
 	if configs.EnableDesktop {
 		go func() {
 			api.Run()

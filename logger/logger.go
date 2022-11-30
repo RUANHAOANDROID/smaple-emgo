@@ -18,6 +18,7 @@ var Log *logrus.Logger
 type mineFormatter struct{}
 
 const TimeFormat = "2006-01-02 15:04:05"
+const TimeFormatDay = "2006-01-02"
 
 func init() {
 	Log = create()
@@ -55,7 +56,7 @@ func create() *logrus.Logger {
 }
 
 func todayFileName() string {
-	return time.Now().Format("2006-01-02") + ".log"
+	return time.Now().Format(TimeFormatDay) + ".log"
 }
 
 func (s *mineFormatter) Format(entry *logrus.Entry) ([]byte, error) {

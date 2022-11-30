@@ -14,12 +14,12 @@ var md5Key = "#!1EMCXu5eIx190"
 type EmcsRequest[T interface{}] struct {
 	Data      T      `json:"data"`
 	Sign      string `json:"sign"`
-	Timestamp string `json:"timestamp"`
+	Timestamp string `json:"timestamp"` //this is a string
 }
 type Request[T interface{}] struct {
 	Data      T      `json:"data"`
 	Sign      string `json:"sign"`
-	Timestamp int64  `json:"timestamp"`
+	Timestamp int64  `json:"timestamp"` // this is int64 (java long)
 }
 
 func (r Request[any]) CheckSign() bool {
