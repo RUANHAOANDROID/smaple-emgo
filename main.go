@@ -12,16 +12,14 @@ import (
 )
 
 func main() {
-	api.Gin.StaticFS("/index", http.FS(static.Static))
 	udp.Run(configs.UDPListenAddr)
+
 	gin.SetMode(gin.ReleaseMode)
+	api.Gin.StaticFS("/index", http.FS(static.Static))
 	if configs.EnableDesktop {
-		go func() {
-			api.Run()
-		}()
+		go api.Run()
 		desktop.Run()
 	} else {
 		api.Run()
 	}
-	//api.Run()
 }
