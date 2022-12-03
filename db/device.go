@@ -1,7 +1,6 @@
 package db
 
 import (
-	"database/sql"
 	"emcs-relay-go/utils"
 )
 
@@ -20,11 +19,11 @@ type Device struct {
 	// 设备状态
 	DeviceStatus string `json:"deviceStatus"`
 	// 状态 1-正常 2-删除
-	Status sql.NullString `json:"status"`
+	Status string `json:"status"`
 	// 新增时间
-	AddTime sql.NullString `json:"addTime"`
+	AddTime string `json:"addTime"`
 	// 修改时间
-	UpdateTime sql.NullString `json:"updateTime"`
+	UpdateTime string `json:"updateTime"`
 }
 
 func AddDevice(device Device) error {
@@ -36,4 +35,7 @@ func AddDevice(device Device) error {
 func DeleteDevice(deviceId string) error {
 	err := DB.Where("id=?", deviceId).Delete(&Device{}).Error
 	return err
+}
+func UpdateDevice(device Device) error {
+	return DB.Model(&device).Updates(device).Error
 }

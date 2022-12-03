@@ -5,7 +5,9 @@ import (
 	"emcs-relay-go/utils"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin/binding"
 	"net/http"
+	"time"
 )
 
 func HandlerAdmin(r *gin.RouterGroup) {
@@ -24,6 +26,25 @@ func HandlerAdmin(r *gin.RouterGroup) {
 	r.POST("/getRecentOperateLog", getRecentOperateLog())
 	r.POST("/heartbeat", heartbeat())
 	r.POST("/getNumToday", getNumToday())
+	r.POST("/updateDevice", updateDevice())
+}
+func updateDevice() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		req := db.Device{}
+		err := c.ShouldBind(&req)
+		if err != nil {
+			utils.Log.Error(err)
+			ResError(c, "参数错误")
+			return
+		}
+		req.UpdateTime = time.Now().Format(utils.TimeFormat)
+		err = db.UpdateDevice(req)
+		if err != nil {
+			ResError(c, err.Error())
+			return
+		}
+		c.JSON(http.StatusOK, ResponseSuccess("OK"))
+	}
 }
 func getNumToday() gin.HandlerFunc {
 	return func(c *gin.Context) {
@@ -46,7 +67,18 @@ func getRecentOperateLog() gin.HandlerFunc {
 }
 func updatePassword() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		c.String(http.StatusOK, "保存成功")
+		updUser := UpdateUser{}
+		err := c.ShouldBind(&updUser)
+		if err != nil {
+			ResError(c, "参数错误")
+			return
+		}
+		db.UpdatePwd(updUser.UserName, updUser.Password)
+		if err != nil {
+			ResError(c, "更改密码失败")
+			return
+		}
+		c.JSON(http.StatusOK, ResponseSuccess("OK"))
 	}
 }
 func addDevice() gin.HandlerFunc {
@@ -68,11 +100,15 @@ func addDevice() gin.HandlerFunc {
 
 func getCurrentConfig() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		var configs []db.DeviceConfig
-		err := db.GetConfig(configs)
+		configs := db.DeviceConfig{}
+		err := db.GetConfig(&configs)
 		if err != nil {
 			ResError(c, "查询失败")
+			return
 		}
+		//response := []db.DeviceConfig{
+		//	configs,
+		//}
 		c.JSON(http.StatusOK, ResponseSuccess(configs))
 	}
 }
@@ -112,18 +148,57 @@ func getConfig() gin.HandlerFunc {
 }
 func saveConfig() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		dc := db.DeviceConfig{}
-		pErr := c.BindJSON(&dc)
-		if pErr != nil {
-			ResError(c, pErr.Error())
-			return
+		sc1 := SaveConfig{}
+		err1 := c.ShouldBindBodyWith(&sc1, binding.JSON)
+		if err1 == nil {
+			utils.Log.Error(err1.Error())
+			utils.Log.Info(sc1)
+			err := db.SaveConfig(db.DeviceConfig{
+				Id:          sc1.Id,
+				Buffer:      sc1.Buffer,
+				CheckUrl:    sc1.CheckUrl,
+				ConfigUrl:   sc1.ConfigUrl,
+				DeFalseText: sc1.DeFalseText,
+				//DeFalseVoice    :sc1.DeFalseVoice.Error,
+				DeTrueText:      sc1.DeTrueText,
+				DeTrueVoice:     sc1.TrueVoice1,
+				DelayedTime:     sc1.DelayedTime,
+				FalseVoice1:     sc1.FalseVoice1,
+				FalseVoice2:     sc1.FalseVoice2,
+				FalseVoice3:     sc1.FalseVoice3,
+				FalseVoice4:     sc1.FalseVoice4,
+				HeartbeatTime:   sc1.HeartbeatTime,
+				HeartbeatUrl:    sc1.HeartbeatUrl,
+				InvalidTime:     sc1.InvalidTime,
+				ManufacturerId1: sc1.ManufacturerId1,
+				ManufacturerId2: sc1.ManufacturerId2,
+				NumUpTime:       sc1.NumUpTime,
+				NumUpUrl:        sc1.NumUpUrl,
+				TrueVoice1:      sc1.TrueVoice1,
+				TrueVoice2:      sc1.TrueVoice2,
+				TrueVoice3:      sc1.TrueVoice3,
+				TrueVoice4:      sc1.TrueVoice4,
+				WriteOffUrl:     sc1.WriteOffUrl,
+			})
+			if err != nil {
+				ResError(c, err.Error())
+				return
+			}
+			c.JSON(http.StatusOK, ResponseSuccess("ok"))
+		} else {
+			sc2 := db.DeviceConfig{}
+			err := c.ShouldBindBodyWith(&sc2, binding.JSON)
+			if err != nil {
+				ResError(c, err.Error())
+				return
+			}
+			err = db.SaveConfig(sc2)
+			if err != nil {
+				ResError(c, err.Error())
+				return
+			}
+			c.JSON(http.StatusOK, ResponseSuccess("0k"))
 		}
-		dErr := db.SaveConfig(dc)
-		if dErr != nil {
-			ResError(c, dErr.Error())
-			return
-		}
-		c.JSON(http.StatusOK, ResponseSuccess("ok"))
 	}
 }
 func deleteDevice() gin.HandlerFunc {

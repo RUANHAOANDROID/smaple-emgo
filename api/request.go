@@ -58,3 +58,53 @@ type WebGetConfig struct {
 type GetConfigEmcs struct {
 	SerialNum string `json:"serialNum"`
 }
+type UpdateUser struct {
+	Password string `json:"password"`
+	UserName string `json:"userName"`
+}
+
+type UpdateDevice struct {
+	DeviceIp      string `json:"deviceIp"`
+	DeviceNo      string `json:"deviceNo"`
+	DeviceStatus  string `json:"deviceStatus"`
+	DeviceVersion string `json:"deviceVersion"`
+	Id            string `json:"id"`
+	SerialNumber  string `json:"serialNumber"`
+}
+type SaveConfig struct {
+	Buffer       string `json:"buffer"`
+	CheckUrl     string `json:"checkUrl"`
+	ConfigUrl    string `json:"configUrl"`
+	DeFalseText  string `json:"deFalseText"`
+	DeFalseVoice struct {
+		Error   string `json:"error"`
+		Invalid string `json:"invalid"`
+		Other   string `json:"other"`
+		Used    string `json:"used"`
+	} `json:"deFalseVoice"`
+	DeTrueText  string `json:"deTrueText"`
+	DeTrueVoice struct {
+		Normal    string `json:"normal"`
+		Other     string `json:"other"`
+		YearCard1 string `json:"yearCard1"`
+		YearCard2 string `json:"yearCard2"`
+	} `json:"deTrueVoice"`
+	DelayedTime     string `json:"delayedTime"`
+	FalseVoice1     string `json:"falseVoice1"`
+	FalseVoice2     string `json:"falseVoice2"`
+	FalseVoice3     string `json:"falseVoice3"`
+	FalseVoice4     string `json:"falseVoice4"`
+	HeartbeatTime   string `json:"heartbeatTime"`
+	HeartbeatUrl    string `json:"heartbeatUrl"`
+	Id              string `json:"id"`
+	InvalidTime     string `json:"invalidTime"`
+	ManufacturerId1 string `json:"manufacturerId1"`
+	ManufacturerId2 string `json:"manufacturerId2"`
+	NumUpTime       string `json:"numUpTime"`
+	NumUpUrl        string `json:"numUpUrl"`
+	TrueVoice1      string `json:"trueVoice1"`
+	TrueVoice2      string `json:"trueVoice2"`
+	TrueVoice3      string `json:"trueVoice3"`
+	TrueVoice4      string `json:"trueVoice4"`
+	WriteOffUrl     string `json:"writeOffUrl"`
+}

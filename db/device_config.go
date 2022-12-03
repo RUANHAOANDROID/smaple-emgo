@@ -28,9 +28,9 @@ type DeviceConfig struct {
 	WriteOffUrl     string `json:"writeOffUrl"`
 }
 
-func GetConfig(config []DeviceConfig) error {
-	return DB.First(&config).Error
+func GetConfig(config *DeviceConfig) error {
+	return DB.First(config).Error
 }
 func SaveConfig(dcf DeviceConfig) error {
-	return DB.Create(&dcf).Error
+	return DB.Save(&dcf).Error
 }
