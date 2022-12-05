@@ -13,7 +13,10 @@ require (
 	gorm.io/gorm v1.24.2
 )
 
-require github.com/webview/webview v0.0.0-20221122140723-dbc78641c94c
+require (
+	github.com/jchv/go-webview2 v0.0.0-20221027045535-e2a104b55541
+	//github.com/webview/webview v0.0.0-20221122140723-dbc78641c94c
+)
 
 require (
 	github.com/fastly/go-utils v0.0.0-20180712184237-d95a45783239 // indirect
@@ -21,6 +24,7 @@ require (
 	github.com/go-playground/locales v0.14.0 // indirect
 	github.com/go-playground/universal-translator v0.18.0 // indirect
 	github.com/go-playground/validator/v10 v10.10.0 // indirect
+	github.com/jchv/go-winloader v0.0.0-20200815041850-dec1ee9a7fd5 // indirect
 	github.com/jehiah/go-strftime v0.0.0-20171201141054-1d33003b3869 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/jonboulle/clockwork v0.3.0 // indirect
