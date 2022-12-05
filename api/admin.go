@@ -103,6 +103,10 @@ func getCurrentConfig() gin.HandlerFunc {
 		configs := db.DeviceConfig{}
 		err := db.GetConfig(&configs)
 		if err != nil {
+			if err.Error() == "record not found" {
+				c.JSON(http.StatusOK, ResponseSuccess(err.Error()))
+				return
+			}
 			ResError(c, "查询失败")
 			return
 		}
