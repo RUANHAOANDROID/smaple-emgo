@@ -213,7 +213,7 @@ func deleteDevice() gin.HandlerFunc {
 			ResError(c, err.Error())
 			return
 		}
-		dbError := db.DeleteDevice(device.Id)
+		dbError := db.DeleteDevice(device.ID)
 		if dbError != nil {
 			ResError(c, dbError.Error())
 			return

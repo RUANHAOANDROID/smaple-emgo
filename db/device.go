@@ -5,9 +5,9 @@ import (
 )
 
 type Device struct {
-
+	ID uint `json:"id"gorm:"primaryKey"`
 	// 设备主板id
-	Id string `json:"id" gorm:"primaryKey"`
+	DeviceId string `json:"deviceId"`
 	// 设备编号
 	DeviceNo string `json:"deviceNo"`
 	// 设备ip
@@ -32,8 +32,9 @@ func AddDevice(device Device) error {
 	utils.Log.Info(device)
 	return err
 }
-func DeleteDevice(deviceId string) error {
-	err := DB.Where("id=?", deviceId).Delete(&Device{}).Error
+func DeleteDevice(id uint) error {
+	//err := UnscopedDb().Delete(&Device{}, id)
+	err := UnscopedDb().Where("id = ?", id).Delete(&Device{}).Error
 	return err
 }
 func UpdateDevice(device Device) error {
