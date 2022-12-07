@@ -13,14 +13,12 @@ require (
 	gorm.io/gorm v1.24.2
 )
 
-require (
-	github.com/jchv/go-webview2 v0.0.0-20221027045535-e2a104b55541
-	//github.com/webview/webview v0.0.0-20221122140723-dbc78641c94c
-)
+require github.com/jchv/go-webview2 v0.0.0-20221027045535-e2a104b55541
 
 require (
 	github.com/fastly/go-utils v0.0.0-20180712184237-d95a45783239 // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
+	github.com/go-ole/go-ole v1.2.6 // indirect
 	github.com/go-playground/locales v0.14.0 // indirect
 	github.com/go-playground/universal-translator v0.18.0 // indirect
 	github.com/go-playground/validator/v10 v10.10.0 // indirect
@@ -38,8 +36,10 @@ require (
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/pelletier/go-toml/v2 v2.0.1 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
+	github.com/shirou/gopsutil v3.21.11+incompatible // indirect
 	github.com/tebeka/strftime v0.1.5 // indirect
 	github.com/ugorji/go/codec v1.2.7 // indirect
+	github.com/yusufpapurcu/wmi v1.2.2 // indirect
 	golang.org/x/crypto v0.0.0-20210711020723-a769d52b0f97 // indirect
 	golang.org/x/net v0.0.0-20210226172049-e18ecbb05110 // indirect
 	golang.org/x/sys v0.0.0-20220715151400-c0bba94af5f8 // indirect

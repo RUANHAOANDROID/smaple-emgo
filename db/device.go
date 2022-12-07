@@ -2,24 +2,23 @@ package db
 
 import (
 	"emcs-relay-go/utils"
+	"time"
 )
 
 type Device struct {
 	ID uint `json:"id"gorm:"primaryKey"`
-	// 设备主板id
-	DeviceId string `json:"deviceId"`
-	// 设备编号
-	DeviceNo string `json:"deviceNo"`
-	// 设备ip
-	DeviceIp string `json:"deviceIp"`
-	// 设备主板id
-	SerialNumber string `json:"serialNumber"`
-	// 设备版本
-	DeviceVersion string `json:"deviceVersion"`
-	// 设备状态
-	DeviceStatus string `json:"deviceStatus"`
+	// 标签
+	Tag string `json:"tag"`
+	// 编号
+	Number string `json:"number"`
+	// ip
+	Ip string `json:"ip"`
+	//序列号
+	Sn string `json:"sn"`
+	// 版本
+	Version string `json:"version"`
 	// 状态 1-正常 2-删除
-	Status string `json:"status"`
+	Status string `json:"status" gorm:"default:0"`
 	// 新增时间
 	AddTime string `json:"addTime"`
 	// 修改时间
@@ -38,5 +37,35 @@ func DeleteDevice(id uint) error {
 	return err
 }
 func UpdateDevice(device Device) error {
-	return DB.Model(&device).Updates(device).Error
+	//{"id":null,"tag":"Tagalog","number":"设备编号","ip":"IP","sn":"sn",
+	//"version":"version","status":null,"addTime":null,"updateTime":null}
+	//err := DB.Model(&device).Where("id=?", device.ID).Updates(map[string]interface{}{
+	//	"tag":         device.Tag,
+	//	"number":      device.Number,
+	//	"ip":          device.Ip,
+	//	"sn":          device.Sn,
+	//	"version":     device.Version,
+	//	"status":      device.Status,
+	//	"update_time": utils.Fmt2HMS(time.Now()),
+	//},
+	//).Error
+	//err := DB.Save(&device).Where("id=?", device.ID).Error
+	err := DB.Exec("UPDATE devices SET "+
+		" tag = ?,"+
+		" number = ?,"+
+		" ip = ?,"+
+		" sn = ?,"+
+		" version = ?,"+
+		" status = ?,"+
+		" update_time = ?"+
+		" WHERE  id = ?",
+		device.Tag,
+		device.Number,
+		device.Ip,
+		device.Sn,
+		device.Version,
+		device.Status,
+		utils.Fmt2HMS(time.Now()),
+		device.ID).Error
+	return err
 }

@@ -38,9 +38,9 @@ func RequestConfig(url string, id string, timestamp int64) (WebResponse[any], er
 	emcsR := EmcsResponse[any]{}
 	err = json.Unmarshal(content, &emcsR)
 	webR := WebResponse[any]{
-		Code:    1,
-		Data:    emcsR.Data,
-		Message: emcsR.Msg,
+		Code: 1,
+		Data: emcsR.Data,
+		Msg:  emcsR.Msg,
 	}
 	return webR, err
 }

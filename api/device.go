@@ -13,7 +13,9 @@ func HandlerDeviceManager(r *gin.RouterGroup) {
 	r.POST("/delete", delete())
 	r.POST("/list", list())
 	r.POST("/add", add())
+	r.POST("/update", update())
 }
+
 func delete() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var id uint
@@ -47,20 +49,23 @@ func add() gin.HandlerFunc {
 		if err != nil {
 			utils.Log.Error(err.Error())
 		}
-		//deviceId := json["deviceId"].(string)
-		//deviceNo := json["deviceNo"].(string)
-		//deviceIp := json["deviceIp"].(string)
-		//serialNumber := json["serialNumber"].(string)
-		//deviceVersion := json["deviceVersion"].(string)
-		//id, err := strconv.Atoi(string(json["id"]))
-		//device := db.Device{
-		//	DeviceId:      deviceId,
-		//	DeviceNo:      deviceNo,
-		//	DeviceIp:      deviceIp,
-		//	SerialNumber:  serialNumber,
-		//	DeviceVersion: deviceVersion,
-		//}
 		err = db.AddDevice(device)
+		if err != nil {
+			utils.Log.Error(err)
+		}
+		response := ResponseSuccess(any("ok"))
+		fmt.Println(response)
+		c.JSON(http.StatusOK, response)
+	}
+}
+func update() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		device := db.Device{}
+		err := c.BindJSON(&device)
+		if err != nil {
+			utils.Log.Error(err.Error())
+		}
+		err = db.UpdateDevice(device)
 		if err != nil {
 			utils.Log.Error(err)
 		}

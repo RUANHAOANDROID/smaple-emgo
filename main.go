@@ -7,6 +7,7 @@ import (
 	"emcs-relay-go/desktop"
 	"emcs-relay-go/static"
 	"emcs-relay-go/udp"
+	"emcs-relay-go/utils"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -20,6 +21,7 @@ func main() {
 		go api.Run()
 		desktop.Run()
 	} else {
+		utils.GetCpuPercent()
 		api.Run()
 	}
 }
