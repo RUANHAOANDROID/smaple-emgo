@@ -9,7 +9,7 @@ import (
 )
 
 func HandlerDeviceManager(r *gin.RouterGroup) {
-	r.Use(LogHandler())
+	//r.Use(LogHandler())
 	r.POST("/delete", delete())
 	r.POST("/list", list())
 	r.POST("/add", add())

@@ -48,7 +48,7 @@ func Sign(aJson any, timeLong int64) EmcsRequest[any] {
 
 type LoginRequest struct {
 	UserName string `json:"userName"`
-	Password string `json:"password"`
+	PassWord string `json:"passWord"`
 }
 
 type WebGetConfig struct {

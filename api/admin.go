@@ -11,7 +11,7 @@ import (
 )
 
 func HandlerAdmin(r *gin.RouterGroup) {
-	r.Use(SignHandler())
+	//r.Use(SignHandler())
 	r.POST("/login", login())
 	r.POST("/updatePassword", updatePassword())
 	r.POST("/getConfig", getConfig())
@@ -231,10 +231,11 @@ func openGateTest() gin.HandlerFunc {
 func login() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		requestUser := LoginRequest{}
-		err := c.ShouldBind(&requestUser)
+		err := c.BindJSON(&requestUser)
 
 		if err != nil {
 			c.JSON(http.StatusOK, ResponseError("参数错误"))
+			utils.Log.Error(err.Error())
 			return
 		}
 		err = db.UserExists(requestUser.UserName)
@@ -242,7 +243,7 @@ func login() gin.HandlerFunc {
 			c.JSON(http.StatusOK, ResponseError("用户不存在"))
 			return
 		}
-		err = db.UserVerify(requestUser.UserName, requestUser.Password)
+		err = db.UserVerify(requestUser.UserName, requestUser.PassWord)
 		if err != nil {
 			c.JSON(http.StatusOK, ResponseError("密码错误"))
 			return
