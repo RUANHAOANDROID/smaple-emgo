@@ -2,12 +2,14 @@ package api
 
 func RegisterRouters() {
 	//tg := Gin.Group("/")
-	ag := Gin.Group("/admin")
-	dg := Gin.Group("/devices")
-	vmg := Gin.Group("/updater")
-	cf := Gin.Group("/config")
-	HandlerAdmin(ag)
-	HandlerDeviceManager(dg)
-	HandlerVersionManager(vmg)
-	HandlerConfigManager(cf)
+	admin := Gin.Group("/admin")
+	devices := Gin.Group("/devices")
+	updater := Gin.Group("/updater")
+	config := Gin.Group("/config")
+	hard := Gin.Group("/hardware")
+	HandlerAdmin(admin)
+	HandlerDeviceManager(devices)
+	HandlerVersionManager(updater)
+	HandlerConfigManager(config)
+	HandlerConfigManager(hard)
 }
