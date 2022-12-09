@@ -6,7 +6,6 @@ import (
 )
 
 func HandlerVersionManager(r *gin.RouterGroup) {
-	//r.Use(SignHandler())
 	r.POST("/getCurrVersion", login())
 	r.POST("/getLatestVersion", saveConfig())
 	r.POST("/download", saveConfig())

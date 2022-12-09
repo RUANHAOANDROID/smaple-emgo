@@ -37,6 +37,7 @@ func SignHandler() gin.HandlerFunc {
 			c.Next()
 		} else {
 			c.JSON(http.StatusOK, ResponseError("sign error"))
+			return
 		}
 
 	}
