@@ -31,6 +31,6 @@ type DeviceConfig struct {
 func GetConfig(config *DeviceConfig) error {
 	return DB.First(config).Error
 }
-func SaveConfig(dcf DeviceConfig) error {
+func SaveConfig(dcf *DeviceConfig) error {
 	return DB.Save(&dcf).Error
 }

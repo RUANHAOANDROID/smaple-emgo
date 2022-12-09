@@ -27,6 +27,7 @@ func init() {
 		createSysLogTime()
 		createDevice()
 		createDeviceConfig()
+		createMyConfig()
 		createNumUpLod()
 	}
 }
@@ -48,6 +49,13 @@ func createDeviceConfig() {
 	dst := &DeviceConfig{}
 	if !DB.Migrator().HasTable(dst) {
 		err := DB.AutoMigrate(&DeviceConfig{})
+		utils.PrintErr(err)
+	}
+}
+func createMyConfig() {
+	dst := &MyConfig{}
+	if !DB.Migrator().HasTable(dst) {
+		err := DB.AutoMigrate(&MyConfig{})
 		utils.PrintErr(err)
 	}
 }

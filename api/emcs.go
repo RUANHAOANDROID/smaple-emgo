@@ -2,6 +2,7 @@ package api
 
 import (
 	"bytes"
+	"emcs-relay-go/api/entity"
 	"emcs-relay-go/configs"
 	"emcs-relay-go/utils"
 	"github.com/goccy/go-json"
@@ -22,7 +23,7 @@ type EmcsResponse[T interface{}] struct {
 	Data T      `json:"data"`
 }
 
-func RequestConfig(url string, id string, timestamp int64) (WebResponse[any], error) {
+func rpcGetConf(url string, id string, timestamp int64) (EmcsResponse[entity.EmcsConfig], error) {
 	utils.Log.Info("request getConfig", url, id)
 	getConf := GetConfigEmcs{
 		SerialNum: id,
@@ -35,12 +36,8 @@ func RequestConfig(url string, id string, timestamp int64) (WebResponse[any], er
 	content, err := ioutil.ReadAll(resp.Body)
 	jsonString := string(content)
 	utils.Log.Info(jsonString)
-	emcsR := EmcsResponse[any]{}
+	//不要过无用的项
+	emcsR := EmcsResponse[entity.EmcsConfig]{}
 	err = json.Unmarshal(content, &emcsR)
-	webR := WebResponse[any]{
-		Code: 1,
-		Data: emcsR.Data,
-		Msg:  emcsR.Msg,
-	}
-	return webR, err
+	return emcsR, err
 }

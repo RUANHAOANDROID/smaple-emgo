@@ -9,5 +9,5 @@ func RegisterRouters() {
 	HandlerAdmin(ag)
 	HandlerDeviceManager(dg)
 	HandlerVersionManager(vmg)
-	HandlerVersionManager(cf)
+	HandlerConfigManager(cf)
 }
