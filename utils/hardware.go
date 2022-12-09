@@ -14,8 +14,6 @@ func GetCpuPercent() float64 {
 	var count, _ = cpu.Info()                        //Mhz总频率
 	Log.Info(count)
 	Log.Info(percent)
-	GetMemPercent()
-	GetDiskPercent()
 	return percent[0]
 }
 
