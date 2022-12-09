@@ -1,6 +1,7 @@
 package api
 
 func RegisterRouters() {
+	Gin.Use(Cors())
 	//tg := Gin.Group("/")
 	admin := Gin.Group("/admin")
 	devices := Gin.Group("/devices")
