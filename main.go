@@ -6,9 +6,7 @@ import (
 	"emcs-relay-go/configs"
 	"emcs-relay-go/desktop"
 	"emcs-relay-go/static"
-	"emcs-relay-go/timertask"
 	"emcs-relay-go/udp"
-	"emcs-relay-go/utils"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -18,13 +16,12 @@ func main() {
 
 	gin.SetMode(gin.ReleaseMode)
 	api.Gin.StaticFS("/index", http.FS(static.Static))
-	go timertask.RunKeepLive()
+	//go timertask.RunKeepLive()
+	go api.Run()
 	if configs.EnableDesktop {
 		go api.Run()
 		desktop.Run()
 	} else {
-		udp.OpenGate()
-		utils.GetCpuPercent()
 		api.Run()
 	}
 }
