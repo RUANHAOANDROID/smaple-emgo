@@ -23,6 +23,7 @@ func main() {
 		go api.Run()
 		desktop.Run()
 	} else {
+		udp.OpenGate()
 		utils.GetCpuPercent()
 		api.Run()
 	}
