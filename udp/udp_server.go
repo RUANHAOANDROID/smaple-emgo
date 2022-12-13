@@ -40,7 +40,22 @@ func handelUDP(conn *net.UDPConn) {
 	}
 	msg := string(buf[:len])
 	//logger.Log.Info(msg)
-	fmt.Println(msg)
+	utils.Log.Info(msg)
+	isCheck, err := isCheck(msg)
+	if err != nil {
+		utils.Log.Info(err.Error())
+	}
+	if isCheck {
+		checkTicket(msg)
+	}
+
+	isPass, err := isPassed(msg)
+	if err != nil {
+		utils.Log.Info(err.Error())
+	}
+	if isPass {
+		utils.Log.Info(msg)
+	}
 	bytes := []byte(api.CheckTicket())
 	//var str =[]byte(" $F12345678F$")
 	go func() {
