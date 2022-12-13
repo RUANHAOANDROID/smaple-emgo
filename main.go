@@ -18,7 +18,6 @@ func main() {
 	gin.SetMode(gin.ReleaseMode)
 	api.Gin.StaticFS("/index", http.FS(static.Static))
 	//go timertask.RunKeepLive()
-	go api.Run()
 	if configs.EnableDesktop {
 		go api.Run()
 		desktop.Run()
