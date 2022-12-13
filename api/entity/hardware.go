@@ -1,10 +1,12 @@
 package entity
 
 import (
-	"emcs-relay-go/utils"
+	"fmt"
 	"github.com/shirou/gopsutil/cpu"
 	"github.com/shirou/gopsutil/disk"
 	"github.com/shirou/gopsutil/mem"
+	"os"
+	"path/filepath"
 	"strconv"
 	"time"
 )
@@ -35,22 +37,28 @@ func Memory() Hardware {
 func Disk() Hardware {
 	parts, _ := disk.Partitions(true)
 	info, _ := disk.Usage(parts[0].Mountpoint)
-	utils.Log.Info(parts)
-	utils.Log.Info(info)
+	//utils.Log.Info(parts)
+	//utils.Log.Info(info)
 	total := strconv.FormatInt(int64(info.Total), 10)
 	proportion := strconv.FormatInt(int64(info.UsedPercent), 10)
 	used := strconv.FormatInt(int64(info.Used), 10)
 	//MD /1000 /1000
 	return Hardware{Name: "Disk", Total: total, Used: used, Proportion: proportion}
 }
-func Store() Hardware {
-	parts, _ := disk.Partitions(true)
-	diskInfo, _ := disk.Usage(parts[0].Mountpoint)
-	utils.Log.Info(parts)
-	utils.Log.Info(diskInfo)
-	info, _ := mem.VirtualMemory()
-	total := strconv.FormatInt(int64(info.Total), 10)
-	proportion := strconv.FormatInt(int64(info.UsedPercent), 10)
-	used := strconv.FormatInt(int64(info.Used), 10)
-	return Hardware{Name: "Disk", Total: total, Used: used, Proportion: proportion}
+func Logs() Hardware {
+	var size int64
+	err := filepath.Walk("logs", func(_ string, info os.FileInfo, err error) error {
+		if !info.IsDir() {
+			size += info.Size()
+		}
+		return err
+	})
+	if err != nil {
+		size = 0
+	}
+	gb := int64(1 * 1024 * 1022 * 1024)
+	total := strconv.FormatInt(gb, 10)
+	proportion := float64(size) / float64(gb)
+	used := strconv.FormatInt(size, 10)
+	return Hardware{Name: "LOGS", Total: total, Used: used, Proportion: fmt.Sprintf("%f", proportion)}
 }

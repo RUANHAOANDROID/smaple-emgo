@@ -84,6 +84,9 @@ func Sec2Time(timeStamp string) time.Time {
 func Fmt2HMS(time time.Time) string {
 	return time.Format("2006-01-02 15:04:05")
 }
+func NowTimeStr() string {
+	return time.Now().Local().Format("2006-01-02 15:04:05")
+}
 func Fmt2Day(time time.Time) string {
 	return time.Format("2006-01-02")
 }

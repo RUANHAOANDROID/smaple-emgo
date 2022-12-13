@@ -29,6 +29,7 @@ func init() {
 		createDeviceConfig()
 		createMyConfig()
 		createNumUpLod()
+		createEventLog()
 	}
 }
 func createUser() {
@@ -73,6 +74,14 @@ func createSysLog() {
 		utils.PrintErr(err)
 	}
 }
+func createEventLog() {
+	dst := &EventLog{}
+	if !DB.Migrator().HasTable(dst) {
+		err := DB.AutoMigrate(dst)
+		utils.PrintErr(err)
+	}
+}
+
 func createSysLogTime() {
 	dst := &SysLogTime{}
 	if !DB.Migrator().HasTable(dst) {

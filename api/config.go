@@ -10,8 +10,6 @@ import (
 )
 
 func HandlerConfigManager(r *gin.RouterGroup) {
-
-	r.POST("/get", getConfig())
 	r.POST("/getConfig", getConfig())
 	r.POST("/getMyConfig", getMyConfig())
 	r.POST("/saveMyConfig", saveMyConfig())

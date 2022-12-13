@@ -36,7 +36,7 @@ func delete() gin.HandlerFunc {
 func list() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var devices []db.Device
-		db.DB.Find(&devices)
+		db.DevicesList(&devices)
 		responseSuccess := ResponseSuccess(devices)
 		utils.Log.Debug(responseSuccess)
 		c.JSON(http.StatusOK, responseSuccess)
@@ -49,7 +49,7 @@ func add() gin.HandlerFunc {
 		if err != nil {
 			utils.Log.Error(err.Error())
 		}
-		err = db.AddDevice(device)
+		err = db.AddDevice(&device)
 		if err != nil {
 			utils.Log.Error(err)
 		}

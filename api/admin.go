@@ -87,7 +87,7 @@ func addDevice() gin.HandlerFunc {
 			ResError(c, "参数错误")
 			return
 		}
-		err = db.AddDevice(device)
+		err = db.AddDevice(&device)
 		if err != nil {
 			ResError(c, err.Error())
 			return

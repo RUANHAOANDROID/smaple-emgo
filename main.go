@@ -6,6 +6,7 @@ import (
 	"emcs-relay-go/configs"
 	"emcs-relay-go/desktop"
 	"emcs-relay-go/static"
+	"emcs-relay-go/timertask"
 	"emcs-relay-go/udp"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -22,8 +23,7 @@ func main() {
 		go api.Run()
 		desktop.Run()
 	} else {
-		//utils.GetCpuPercent()
-
+		go timertask.RunKeepLive()
 		api.Run()
 	}
 }
