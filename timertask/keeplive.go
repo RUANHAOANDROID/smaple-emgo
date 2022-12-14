@@ -16,17 +16,18 @@ func RunKeepLive() {
 		case <-timer.C:
 			fmt.Println("keeplive .......")
 			cpu := entity.CPU()
-			api.SendMsg(entity.Pack(entity.TYPE_HARDWARE, cpu))
+			//api.SendMsg(entity.Pack(entity.TYPE_HARDWARE, cpu))
 
 			memory := entity.Memory()
-			api.SendMsg(entity.Pack(entity.TYPE_HARDWARE, memory))
+			//api.SendMsg(entity.Pack(entity.TYPE_HARDWARE, memory))
 
 			disk := entity.Disk()
-			api.SendMsg(entity.Pack(entity.TYPE_HARDWARE, disk))
+			//api.SendMsg(entity.Pack(entity.TYPE_HARDWARE, disk))
 
 			logs := entity.Logs()
-			api.SendMsg(entity.Pack(entity.TYPE_LOG, logs))
-
+			//api.SendMsg(entity.Pack(entity.TYPE_LOG, logs))
+			hd := []entity.Hardware{cpu, memory, disk, logs}
+			api.SendMsg(entity.Pack(entity.TYPE_HARDWARES, hd))
 		}
 	}
 }

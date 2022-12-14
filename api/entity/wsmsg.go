@@ -1,6 +1,7 @@
 package entity
 
 const TYPE_HARDWARE = 1
+const TYPE_HARDWARES = 4
 const TYPE_LOG = 2
 const TYPE_TOTAL = 3
 

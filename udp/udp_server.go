@@ -46,7 +46,7 @@ func handelUDP(conn *net.UDPConn) {
 		utils.Log.Info(err.Error())
 	}
 	if isCheck {
-		checkTicket(msg)
+		checkTicket(nil, nil, msg)
 	}
 
 	isPass, err := isPassed(msg)
@@ -63,9 +63,6 @@ func handelUDP(conn *net.UDPConn) {
 		db.AddEvent(&log)
 		api.SendMsg(entity.Pack(entity.TYPE_LOG, log))
 	}()
-	go checkTicket(conn)
+	checkTicket(conn, clientAddress, msg)
 	conn.WriteToUDP(bytes, clientAddress) // 简单回写数据给客户端
-}
-func checkTicket(conn *net.UDPConn) {
-
 }

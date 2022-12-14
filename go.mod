@@ -15,8 +15,8 @@ require (
 
 require (
 	github.com/gorilla/websocket v1.5.0
+	github.com/jchv/go-webview2 v0.0.0-20221027045535-e2a104b55541
 	github.com/shirou/gopsutil v3.21.11+incompatible
-	github.com/webview/webview v0.0.0-20221206071508-862eb96057ff
 )
 
 require (
@@ -26,6 +26,7 @@ require (
 	github.com/go-playground/locales v0.14.0 // indirect
 	github.com/go-playground/universal-translator v0.18.0 // indirect
 	github.com/go-playground/validator/v10 v10.10.0 // indirect
+	github.com/jchv/go-winloader v0.0.0-20200815041850-dec1ee9a7fd5 // indirect
 	github.com/jehiah/go-strftime v0.0.0-20171201141054-1d33003b3869 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/jonboulle/clockwork v0.3.0 // indirect
