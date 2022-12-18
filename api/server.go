@@ -18,10 +18,10 @@ func init() {
 func ginConfig() *gin.Engine {
 	r := gin.Default()
 	Gin = r
-	r.Static("/static/js", "./static/static/js")
-	r.Static("/static/css", "./static/static/css")
-	r.Static("/static/img", "./static/static/img")
-	r.Static("/static/fonts", "./static/static/fonts")
+	//r.Static("/static/js", "./static/static/js")
+	//r.Static("/static/css", "./static/static/css")
+	//r.Static("/static/img", "./static/static/img")
+	//r.Static("/static/fonts", "./static/static/fonts")
 	//r.LoadHTMLGlob("/static/index.html")
 	RegisterRouters()
 	return r

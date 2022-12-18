@@ -3,6 +3,7 @@ package timertask
 import (
 	"emcs-relay-go/api"
 	"emcs-relay-go/api/entity"
+	"emcs-relay-go/db"
 	"fmt"
 	"time"
 )
@@ -27,7 +28,15 @@ func RunKeepLive() {
 			logs := entity.Logs()
 			//api.SendMsg(entity.Pack(entity.TYPE_LOG, logs))
 			hd := []entity.Hardware{cpu, memory, disk, logs}
-			api.SendMsg(entity.Pack(entity.TYPE_HARDWARES, hd))
+			go api.SendMsg(entity.Pack(entity.TYPE_HARDWARES, hd))
+			// event log
+			event := []db.EventLog{}
+			db.GetEvents(&event)
+			go api.SendMsg(entity.Pack(entity.TYPE_EVENT, event))
+			//device total
+			total := []db.Device{}
+			db.DevicesList(&total)
+			go api.SendMsg(entity.Pack(entity.TYPE_TOTAL, total))
 		}
 	}
 }
