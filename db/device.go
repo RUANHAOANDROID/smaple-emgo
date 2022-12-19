@@ -80,7 +80,11 @@ func PassedAddUp(number string) error {
 	return err.Error
 }
 
-func TotalPassed() error {
-	err := Db().Exec("SELECT devices ")
+func TotalPassed(devices *[]Device) error {
+	err := Db().Raw("SELECT * FROM  devices ORDER BY count DESC").Scan(devices)
+	return err.Error
+}
+func TotalAllCount(count *int64) error {
+	err := Db().Raw("SELECT SUM(count) FROM  devices").Scan(count)
 	return err.Error
 }
