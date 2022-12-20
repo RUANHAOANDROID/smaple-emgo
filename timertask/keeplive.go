@@ -19,22 +19,34 @@ func RunKeepLive() {
 			fmt.Println("keeplive .......")
 			//sendHardware()
 			// event log
-			event := []db.EventLog{}
-			db.GetEvents(&event)
-			event[0].Time = utils.Fmt2HMS(time.Now())
-			api.SendMsg(entity.Pack(entity.TYPE_EVENT, event))
+			sendEvents()
 			//device total
 			//total := []db.Device{}
 			//db.DevicesList(&total)
 			//api.SendMsg(entity.Pack(entity.TYPE_TOTAL, total))
-			devices := []db.Device{}
-			db.TotalPassed(&devices)
-			api.SendMsg(entity.Pack(entity.TYPE_TOTAL, devices))
-			count := int64(0)
-			db.TotalAllCount(&count)
-			api.SendMsg(entity.Pack(entity.TYPE_TOTAL, count))
+			sendDeviceTotal()
+			sendTotal()
 		}
 	}
+}
+
+func sendEvents() {
+	event := []db.EventLog{}
+	db.GetEvents(&event)
+	event[0].Time = utils.Fmt2HMS(time.Now())
+	api.SendMsg(entity.Pack(entity.TYPE_EVENT, event))
+}
+
+func sendDeviceTotal() {
+	devices := []db.Device{}
+	db.TotalPassed(&devices)
+	api.SendMsg(entity.Pack(entity.TYPE_TOTAL, devices))
+}
+
+func sendTotal() {
+	count := int64(0)
+	db.TotalAllCount(&count)
+	api.SendMsg(entity.Pack(entity.TYPE_TOTAL, count))
 }
 
 func sendHardware() {
