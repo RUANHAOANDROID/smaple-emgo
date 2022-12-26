@@ -17,38 +17,70 @@ func RunKeepLive() {
 		select {
 		case <-timer.C:
 			fmt.Println("keeplive .......")
-			//sendHardware()
-			// event log
+			sendHardware()
 			sendEvents()
-			//device total
-			//total := []db.Device{}
-			//db.DevicesList(&total)
-			//api.SendMsg(entity.Pack(entity.TYPE_TOTAL, total))
-			sendDeviceTotal()
-			sendTotal()
+			//sendDeviceTotal()
+			//sendTotal()
+			senTotal2()
 		}
 	}
 }
 
 func sendEvents() {
-	event := []db.EventLog{}
-	db.GetEvents(&event)
-	event[0].Time = utils.Fmt2HMS(time.Now())
-	api.SendMsg(entity.Pack(entity.TYPE_EVENT, event))
+	var event []db.EventLog
+	err := db.GetEvents(&event)
+	if err != nil {
+		utils.Log.Error(err)
+	}
+	if event != nil {
+		event[0].Time = utils.Fmt2HMS(time.Now())
+		api.SendMsg(entity.Pack(entity.TYPE_EVENT, event))
+	}
 }
 
 func sendDeviceTotal() {
-	devices := []db.Device{}
-	db.TotalPassed(&devices)
-	api.SendMsg(entity.Pack(entity.TYPE_TOTAL, devices))
+	var devices []db.Device
+	err := db.TotalPassed(&devices)
+	if err != nil {
+		utils.Log.Error(err)
+	}
+	api.SendMsg(entity.Pack(entity.TYPE_DEVICES, devices))
 }
 
 func sendTotal() {
 	count := int64(0)
-	db.TotalAllCount(&count)
+	err := db.TotalAllCount(&count)
+	if err != nil {
+		utils.Log.Error(err)
+	}
 	api.SendMsg(entity.Pack(entity.TYPE_TOTAL, count))
 }
 
+type TotalVO struct {
+	Sum         int64              `json:"sum"`
+	DeviceTotal []db.DeviceTotalVO `json:"deviceTotals"`
+}
+
+func senTotal2() {
+	var data []db.DeviceTotalVO
+	ymd := utils.Fmt2Day(time.Now().Local())
+	err := db.TotalDeviceCountByDay(&data, ymd)
+	if err != nil {
+		utils.Log.Error(err)
+		return
+	}
+	totalVo := TotalVO{}
+	err = db.TotalSumByDay(&totalVo.Sum, ymd)
+	for i := 0; i < len(data); i++ {
+		data[i].Proportion = float32(data[i].Sum) / float32(totalVo.Sum) * 100
+	}
+	if err != nil {
+		utils.Log.Error(err)
+		return
+	}
+	totalVo.DeviceTotal = data
+	api.SendMsg(entity.Pack(entity.TYPE_TOTAL, totalVo))
+}
 func sendHardware() {
 	cpu := entity.CPU()
 	memory := entity.Memory()

@@ -35,20 +35,23 @@ func HandlerHoldWS(r *gin.RouterGroup) {
 			wsConn.Close()
 			return err
 		})
-
 		for {
-			mt, message, err := wsConn.ReadMessage()
-			if err != nil {
-				log.Println("read:", err)
-				break
-			}
-
-			log.Printf("recv: %s", message)
-			err = wsConn.WriteMessage(mt, message)
-			if err != nil {
-				log.Println("write:", err)
-				break
-			}
+			handlerMessage(wsConn)
 		}
 	})
+}
+
+func handlerMessage(wsConn *websocket.Conn) {
+	mt, message, err := wsConn.ReadMessage()
+	if err != nil {
+		log.Println("read:", err)
+		return
+	}
+	log.Printf("recv: %s", message)
+
+	err = wsConn.WriteMessage(mt, message)
+	if err != nil {
+		log.Println("write:", err)
+		return
+	}
 }
