@@ -22,7 +22,7 @@ func SendMsg(msg entity.Msg[interface{}]) {
 	wsc.WriteJSON(msg)
 }
 func HandlerHoldWS(r *gin.RouterGroup) {
-	r.GET("/", func(c *gin.Context) {
+	r.GET("/flow", func(c *gin.Context) {
 		wsConn, err := upgrader.Upgrade(c.Writer, c.Request, nil)
 		if err != nil {
 			log.Print("upgrade:", err)
