@@ -8,14 +8,23 @@ import (
 	"net/http"
 )
 
+// HandlerDeviceManager path /devices
 func HandlerDeviceManager(r *gin.RouterGroup) {
 	//r.Use(LogHandler())
 	r.POST("/delete", delete())
 	r.POST("/list", list())
 	r.POST("/add", add())
 	r.POST("/update", update())
+	r.POST("/openGateTest", openGateTest())
 }
-
+func openGateTest() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		device := db.Device{}
+		c.ShouldBindJSON(&device)
+		OpenGate(device.Number, device.Ip)
+		c.String(http.StatusOK, "ok")
+	}
+}
 func delete() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var id uint

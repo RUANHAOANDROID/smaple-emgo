@@ -18,7 +18,6 @@ func HandlerAdmin(r *gin.RouterGroup) {
 	r.POST("/deleteDevice", deleteDevice())
 	r.POST("/deviceList", deviceList())
 	r.POST("/getCurrentConfig", getCurrentConfig())
-	r.POST("/openGateTest", openGateTest())
 	r.POST("/numUploadTest", numUploadTest())
 	r.POST("/checkTicketTest", checkTicketTest())
 	r.POST("/getRecentOperateLog", getRecentOperateLog())
@@ -146,12 +145,6 @@ func deleteDevice() gin.HandlerFunc {
 			return
 		}
 		c.JSON(http.StatusOK, ResponseSuccess("OK"))
-	}
-}
-
-func openGateTest() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		c.String(http.StatusOK, "保存成功")
 	}
 }
 

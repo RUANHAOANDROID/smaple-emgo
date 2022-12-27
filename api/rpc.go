@@ -1,4 +1,4 @@
-package udp
+package api
 
 import (
 	"bytes"

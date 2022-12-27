@@ -6,12 +6,11 @@ import (
 	"emcs-relay-go/configs"
 	"emcs-relay-go/desktop"
 	"emcs-relay-go/timertask"
-	"emcs-relay-go/udp"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	udp.Run(configs.UDPListenAddr)
+	api.RunUDP(configs.UDPListenAddr)
 
 	gin.SetMode(gin.ReleaseMode)
 	//api.Gin.StaticFS("/index", http.FS(static.Static))
