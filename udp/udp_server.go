@@ -49,11 +49,11 @@ func handelUDP(conn *net.UDPConn) {
 		checkTicket(nil, nil, msg)
 	}
 
-	isPass, err := isPassed(msg)
+	isPassed, err := isPassed(msg)
 	if err != nil {
 		utils.Log.Info(err.Error())
 	}
-	if isPass {
+	if isPassed {
 		utils.Log.Info(msg)
 	}
 	bytes := []byte(api.CheckTicket())

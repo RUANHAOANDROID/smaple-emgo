@@ -11,11 +11,11 @@ var EmcsCode *string
 var EmcsConfig *entity.EmcsConfig
 
 type MyConfig struct {
-	Id          uint   `json:"id"gorm:"primaryKey"`
-	Code        string `json:"code"`
-	Url         string `json:"url"`
-	JsonContent string `json:"json_content"`
-	Version     int    `json:"version"`
+	Id      uint   `json:"id"gorm:"primaryKey"`
+	Code    string `json:"code"`
+	Url     string `json:"url"`
+	Content string `json:"content"`
+	Version int    `json:"version"`
 }
 
 func init() {
@@ -26,7 +26,7 @@ func init() {
 		return
 	}
 	emcsConfig := entity.EmcsConfig{}
-	err = json.Unmarshal([]byte(one.JsonContent), emcsConfig)
+	err = json.Unmarshal([]byte(one.Content), emcsConfig)
 	if err != nil {
 		utils.Log.Error(err)
 	}

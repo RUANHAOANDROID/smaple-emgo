@@ -4,7 +4,6 @@ import (
 	"emcs-relay-go/db"
 	"emcs-relay-go/utils"
 	"github.com/gin-gonic/gin"
-	"io"
 	"net/http"
 	"time"
 )
@@ -24,7 +23,7 @@ func getMyConfig() gin.HandlerFunc {
 			c.JSON(http.StatusOK, ResponseError(err.Error()))
 			return
 		}
-		c.JSON(http.StatusOK, ResponseSuccess(config.JsonContent))
+		c.JSON(http.StatusOK, ResponseSuccess(config.Content))
 	}
 }
 
@@ -49,15 +48,14 @@ func getConfig() gin.HandlerFunc {
 }
 func saveMyConfig() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		body, err := io.ReadAll(c.Request.Body)
-
+		myConfig := db.MyConfig{}
+		err := c.ShouldBindJSON(&myConfig)
 		if err != nil {
 			utils.Log.Error(err.Error())
 			c.JSON(http.StatusOK, ResponseError(err.Error()))
 			return
 		}
-		jsonString := string(body)
-		err = db.SaveMyConfig(&db.MyConfig{JsonContent: jsonString})
+		err = db.SaveMyConfig(&myConfig)
 		if err != nil {
 			utils.Log.Error(err.Error())
 			c.JSON(http.StatusOK, ResponseError(err.Error()))
@@ -65,5 +63,8 @@ func saveMyConfig() gin.HandlerFunc {
 		}
 		c.JSON(http.StatusOK, ResponseSuccess("ok"))
 		err = db.DeleteMyOtherConfig()
+		if err != nil {
+			utils.Log.Error(err.Error())
+		}
 	}
 }
