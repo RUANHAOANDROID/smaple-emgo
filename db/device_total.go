@@ -29,7 +29,7 @@ func TotalUpAdd(number string) error {
 }
 
 func TotalDeviceCountByDay(devices *[]DeviceTotalVO, day string) error {
-	err := Db().Raw("SELECT d.d_id, d.d_tag, SUM(d_count) as sum, d.date FROM  device_totals d WHERE d.date =? GROUP BY d.d_tag", day).Scan(devices)
+	err := Db().Raw("SELECT d.d_id, d.d_tag, SUM(d_count) as sum, d.date FROM  device_totals d WHERE d.date =? GROUP BY d.d_tag ORDER BY sum DESC", day).Scan(devices)
 	return err.Error
 }
 
