@@ -69,7 +69,7 @@ func senTotal2() {
 		utils.Log.Error(err)
 		return
 	}
-	totalVo := TotalVO{}
+	totalVo := TotalVO{Sum: 0}
 	err = db.TotalSumByDay(&totalVo.Sum, ymd)
 	for i := 0; i < len(data); i++ {
 		data[i].Proportion = float32(data[i].Sum) / float32(totalVo.Sum) * 100
