@@ -2,6 +2,7 @@ package db
 
 import (
 	"emcs-relay-go/utils"
+	"time"
 )
 
 type Device struct {
@@ -76,7 +77,7 @@ func UpdateDevice(device Device) error {
 	return err
 }
 func PassedAddUp(number string) error {
-	err := Db().Exec("UPDATE devices SET count=(count+1) , last_time=? WHERE number=?", utils.NowTimeStr(), number)
+	err := Db().Exec("UPDATE devices SET count=(count+1) , last_time=? WHERE number=?", utils.Fmt2Day(time.Now().Local()), number)
 	return err.Error
 }
 

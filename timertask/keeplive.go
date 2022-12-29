@@ -6,17 +6,19 @@ import (
 	"emcs-relay-go/db"
 	"emcs-relay-go/utils"
 	"fmt"
+	"math/rand"
 	"time"
 )
 
 func RunKeepLive() {
-	timer := time.NewTimer(5 * time.Second)
+	timer := time.NewTimer(3 * time.Second)
 	defer timer.Stop()
 	for {
-		timer.Reset(5 * time.Second) // 这里复用了 timer
+		timer.Reset(3 * time.Second) // 这里复用了 timer
 		select {
 		case <-timer.C:
 			fmt.Println("keeplive .......")
+			testData()
 			sendHardware()
 			sendEvents()
 			//sendDeviceTotal()
@@ -24,6 +26,14 @@ func RunKeepLive() {
 			senTotal2()
 		}
 	}
+}
+
+func testData() {
+	numbers := [3]string{"384605470533333459544638", "1", "2"}
+	randIndex := rand.Int()
+	print(randIndex)
+	db.TotalUpAdd(numbers[randIndex%3])
+
 }
 
 func sendEvents() {
@@ -71,6 +81,10 @@ func senTotal2() {
 	}
 	totalVo := TotalVO{Sum: 0}
 	err = db.TotalSumByDay(&totalVo.Sum, ymd)
+	if totalVo.Sum == 0 { // Toady, no one passed
+		var devices []db.Device
+		db.DevicesList(&devices)
+	}
 	for i := 0; i < len(data); i++ {
 		data[i].Proportion = float32(data[i].Sum) / float32(totalVo.Sum) * 100
 	}

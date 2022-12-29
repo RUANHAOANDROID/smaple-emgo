@@ -3,6 +3,7 @@ package db
 import (
 	"emcs-relay-go/utils"
 	_ "emcs-relay-go/utils"
+	"time"
 )
 
 type DeviceTotal struct {
@@ -24,7 +25,7 @@ type DeviceTotalVO struct {
 }
 
 func TotalUpAdd(number string) error {
-	err := Db().Exec("UPDATE devices SET count=(count+1) , last_time=? WHERE number=?", utils.NowTimeStr(), number)
+	err := Db().Exec("UPDATE device_totals SET d_count=(d_count+1) WHERE date=? AND d_id=?", utils.Fmt2Day(time.Now().Local()), number)
 	return err.Error
 }
 
