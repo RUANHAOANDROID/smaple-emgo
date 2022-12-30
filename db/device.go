@@ -49,37 +49,39 @@ func DeleteDevice(id uint) error {
 	return err
 }
 func UpdateDevice(device Device) error {
-	//{"id":null,"tag":"Tagalog","number":"设备编号","ip":"IP","sn":"sn",
-	//"version":"version","status":null,"addTime":null,"updateTime":null}
-	//err := DB.Model(&device).Where("id=?", device.ID).Updates(map[string]interface{}{
-	//	"tag":         device.Tag,
-	//	"number":      device.Number,
-	//	"ip":          device.Ip,
-	//	"sn":          device.Sn,
-	//	"version":     device.Version,
-	//	"status":      device.Status,
-	//	"update_time": utils.Fmt2HMS(time.Now()),
-	//},
-	//).Error
-	//err := DB.Save(&device).Where("id=?", device.ID).Error
-	err := DB.Exec("UPDATE devices SET "+
-		" tag = ?,"+
-		" number = ?,"+
-		" ip = ?,"+
-		" sn = ?,"+
-		" version = ?,"+
-		" status = ?,"+
-		" update_time = ?"+
-		" WHERE  id = ?",
-		device.Tag,
-		device.Number,
-		device.Ip,
-		device.Sn,
-		device.Version,
-		device.Status,
-		utils.NowTimeStr(),
-		device.ID).Error
-	return err
+	return DB.Transaction(func(tx *gorm.DB) error {
+		err := DB.Exec("UPDATE devices SET "+
+			" tag = ?,"+
+			" number = ?,"+
+			" ip = ?,"+
+			" sn = ?,"+
+			" version = ?,"+
+			" status = ?,"+
+			" update_time = ?"+
+			" WHERE  id = ?",
+			device.Tag,
+			device.Number,
+			device.Ip,
+			device.Sn,
+			device.Version,
+			device.Status,
+			utils.NowTimeStr(),
+			device.ID).Error
+		if err != nil {
+			return err
+		}
+		totalDevice := DeviceTotal{
+			DTag: device.Tag,
+		}
+		//更新统计
+		err = Db().Model(&totalDevice).Where("d_id=?", device.ID).Updates(&totalDevice).Error
+
+		if err != nil {
+			return err
+		}
+		// 返回 nil 提交事务
+		return nil
+	})
 }
 func PassedAddUp(number string) error {
 	err := Db().Exec("UPDATE devices SET count=(count+1) , last_time=? WHERE number=?", utils.Fmt2Day(time.Now().Local()), number)
