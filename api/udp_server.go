@@ -14,11 +14,12 @@ import (
 
 const resultSuccess = "A"
 const resultFail = "5"
-const voice1 = "1"
-const voice2 = "2"
-const voice3 = "3"
-const voice4 = "4"
-const voice5 = "5"
+
+const voice1 = "1" // 1请通过
+const voice2 = "2" // 2无效卡
+const voice3 = "3" // 3验票通过
+const voice4 = "4" // 4 一路平安
+const voice5 = "5" // 5 准许通过
 
 var Conn *net.UDPConn
 
@@ -91,14 +92,16 @@ func handelUDP(conn *net.UDPConn) {
 	}
 	if isPassed {
 		sendPassedEvent(eventLog, msg)
-		sendTotalEvent()
+		sendTotalMsg()
 		utils.Log.Info(msg)
 		return
 	}
 	//var str =[]byte(" $F12345678F$")
 
 }
-func sendTotalEvent() {
+
+// 统计变更
+func sendTotalMsg() {
 	type TotalVO struct {
 		Sum         int64              `json:"sum"`
 		DeviceTotal []db.DeviceTotalVO `json:"deviceTotals"`
@@ -165,11 +168,8 @@ func OpenGate(number string, ip string) {
 	udpAddr := net.UDPAddr{
 		IP: net.ParseIP(ip), Port: 60066,
 	}
-	cmd := "$F" + number + "111" + "A" + "01000/&\\&$E"
+	cmd := pack(number, resultSuccess, voice1)
 	bytes := []byte(cmd)
-	utils.Log.Info("编号：", number)
-	utils.Log.Info("ip：", ip)
-	utils.Log.Info("报文：", cmd)
 	Conn.WriteToUDP(bytes, &udpAddr)
 }
 
@@ -178,8 +178,8 @@ func ErrorTip(number string, ip string) {
 	udpAddr := net.UDPAddr{
 		IP: net.ParseIP(ip), Port: 60066,
 	}
-	pack := pack(number, resultFail, voice2)
-	Conn.WriteToUDP([]byte(pack), &udpAddr)
+	cmd := pack(number, resultFail, voice2)
+	Conn.WriteToUDP([]byte(cmd), &udpAddr)
 }
 
 /*
