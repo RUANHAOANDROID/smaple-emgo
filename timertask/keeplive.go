@@ -18,12 +18,12 @@ func RunKeepLive() {
 		select {
 		case <-timer.C:
 			fmt.Println("keeplive .......")
-			testData()
+			//testData()
 			sendHardware()
-			sendEvents()
+			//sendEvents()
 			//sendDeviceTotal()
 			//sendTotal()
-			senTotal2()
+			//senTotal2()
 		}
 	}
 }

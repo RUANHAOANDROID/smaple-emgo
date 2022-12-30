@@ -14,6 +14,7 @@ import (
 var checkUrl string
 var verifyUrl string
 var contentType = "application/json; charset=utf-8"
+var pathCheckTicket = "/ticket/checkTicket"
 
 func init() {
 	checkUrl = "http://119.29.194.87:9988"
@@ -24,7 +25,7 @@ func init() {
 func CheckTicket(ticket string, protocolNo string) (string, bool) {
 	localData := time.Now().Local()
 	data := CheckData{
-		ClientType:   protocolNo,
+		ClientType:   "006",
 		CientTransNo: protocolNo + localData.Format("20060102150405") + random3(),
 		UpData:       ticket,
 		UpDataLength: string(len(ticket)),
@@ -36,7 +37,7 @@ func CheckTicket(ticket string, protocolNo string) (string, bool) {
 		StrTESn:      authenticator("yccode", "ss"),
 		Version:      "1",
 		PrintControl: "0",
-		TimeStamp:    string(localData.Unix()),
+		TimeStamp:    utils.Fmt2HMS(localData),
 		ProtocolNo:   protocolNo,
 		SystemType:   "1",
 	}
@@ -46,7 +47,8 @@ func CheckTicket(ticket string, protocolNo string) (string, bool) {
 		log.Fatal(err)
 	}
 	clt := http.Client{}
-	resp, err := clt.Post(checkUrl, contentType, bytes.NewBuffer(requestBody))
+	resp, err := clt.Post(checkUrl+pathCheckTicket, contentType, bytes.NewBuffer(requestBody))
+	utils.Log.Error(resp)
 	if err != nil {
 		utils.Log.Error(err)
 		utils.Log.Error(resp)
@@ -56,10 +58,12 @@ func CheckTicket(ticket string, protocolNo string) (string, bool) {
 	retMsg := res["retMsg"]
 	retCode := res["retCode"]
 	utils.Log.Info(retCode, retMsg)
+	utils.Log.Info(retCode, retMsg)
 	return fmt.Sprintln(retMsg), retCode == "0"
 }
 func authenticator(ycCode string, deviceId string) string {
-	return ycCode + deviceId
+	//return ycCode + deviceId
+	return "BCSSHecsun0001EQP20221109000002"
 }
 
 /**
