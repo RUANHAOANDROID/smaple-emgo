@@ -2,6 +2,7 @@ package db
 
 import (
 	"emcs-relay-go/utils"
+	"gorm.io/gorm"
 	"time"
 )
 
@@ -36,6 +37,10 @@ func AddDevice(device *Device) error {
 	device.AddTime = utils.NowTimeStr()
 	err := DB.Create(&device).Error
 	utils.Log.Info(&device)
+	return err
+}
+func GetDevice(number string, device *Device) *gorm.DB {
+	err := DB.Where("number = ?", number).Take(&device)
 	return err
 }
 func DeleteDevice(id uint) error {

@@ -29,7 +29,7 @@ func RunKeepLive() {
 }
 
 func testData() {
-	numbers := [3]string{"384605470533333459544638", "1", "2"}
+	numbers := [3]string{"384605470533333459544638", "1", "8"}
 	randIndex := rand.Int()
 	print(randIndex)
 	db.TotalUpAdd(numbers[randIndex%3])
@@ -82,8 +82,8 @@ func senTotal2() {
 	totalVo := TotalVO{Sum: 0}
 	err = db.TotalSumByDay(&totalVo.Sum, ymd)
 	if totalVo.Sum == 0 { // Toady, no one passed
-		var devices []db.Device
-		db.DevicesList(&devices)
+		api.SendMsg(entity.Pack(entity.TYPE_TOTAL, totalVo))
+		return
 	}
 	for i := 0; i < len(data); i++ {
 		data[i].Proportion = float32(data[i].Sum) / float32(totalVo.Sum) * 100
