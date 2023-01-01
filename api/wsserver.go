@@ -2,7 +2,6 @@ package api
 
 import (
 	"emcs-relay-go/api/entity"
-	"emcs-relay-go/utils"
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
 	"log"
@@ -16,7 +15,7 @@ var wsc *websocket.Conn
 
 func SendMsg(msg entity.Msg[interface{}]) {
 	if wsc == nil {
-		utils.Log.Error("ws server is nil")
+		println("ws server is nil")
 		return
 	}
 	wsc.WriteJSON(msg)
