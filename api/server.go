@@ -18,10 +18,13 @@ func init() {
 func ginConfig() *gin.Engine {
 	r := gin.Default()
 	Gin = r
-	//r.Static("/static/js", "./static/static/js")
-	//r.Static("/static/css", "./static/static/css")
-	//r.Static("/static/img", "./static/static/img")
-	//r.Static("/static/fonts", "./static/static/fonts")
+	//路由重定向
+	r.GET("/", func(c *gin.Context) {
+		//跳转到/luyou2对应的路由处理函数
+		c.Request.URL.Path = "/index" //把请求的URL修改
+		r.HandleContext(c)            //继续后续处理
+	})
+	r.Static("/index", "./static") //制定static 目录
 	//r.LoadHTMLGlob("/static/index.html")
 	RegisterRouters()
 	return r

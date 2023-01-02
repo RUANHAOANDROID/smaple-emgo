@@ -1,7 +1,7 @@
 package configs
 
 const (
-	EnableDesktop  = false
+	EnableDesktop  = true
 	EnableSign     = true
 	Localhost      = "localhost"
 	HttpLoopAddr   = "127.0.0.1"
