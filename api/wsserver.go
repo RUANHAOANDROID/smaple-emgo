@@ -26,7 +26,7 @@ func SendMsg(msg entity.Msg[interface{}]) {
 }
 
 func HandlerHoldWS(r *gin.RouterGroup) {
-	r.GET("/flow", func(c *gin.Context) {
+	r.GET("/websocket", func(c *gin.Context) {
 		wsConn, err := upgrader.Upgrade(c.Writer, c.Request, nil)
 		if err != nil {
 			log.Print("upgrade:", err)

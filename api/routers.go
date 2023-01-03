@@ -1,7 +1,12 @@
 package api
 
+import (
+	"github.com/gin-contrib/static"
+)
+
 func RegisterRouters() {
 	Gin.Use(Cors())
+	Gin.Use(static.Serve("/", static.LocalFile("./flutter", true))) //使用 contrib 避免与get path "/"a 冲突
 	//tg := Gin.Group("/")
 	admin := Gin.Group("/admin")
 	devices := Gin.Group("/devices")

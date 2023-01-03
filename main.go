@@ -11,11 +11,7 @@ import (
 
 func main() {
 	api.RunUDP(configs.UDPListenAddr)
-
-	gin.SetMode(gin.ReleaseMode)
-	//api.Gin.StaticFS("/index", http.FS(static.Static))
-	//api.Gin.StaticFS("/web", http.FS(build.Static))
-	//go timertask.RunKeepLive()
+	gin.SetMode(gin.DebugMode)
 	if configs.EnableDesktop {
 		go api.Run()
 		desktop.Run()

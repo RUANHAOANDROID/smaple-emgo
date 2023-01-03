@@ -18,11 +18,6 @@ func init() {
 func ginConfig() *gin.Engine {
 	r := gin.Default()
 	Gin = r
-	//r.Static("/static/js", "./static/static/js")
-	//r.Static("/static/css", "./static/static/css")
-	//r.Static("/static/img", "./static/static/img")
-	//r.Static("/static/fonts", "./static/static/fonts")
-	//r.LoadHTMLGlob("/static/index.html")
 	RegisterRouters()
 	return r
 }
@@ -30,7 +25,7 @@ func ginConfig() *gin.Engine {
 func Run() {
 	trustedProxies := []string{configs.HttpLoopAddr, configs.Localhost}
 	Gin.SetTrustedProxies(trustedProxies)
-	utils.Log.Info("http" + "://" + configs.HttpLoopAddr + configs.HttpListenPort + "/index")
-	utils.Log.Info("http" + "://" + configs.Localhost + configs.HttpListenPort + "/index")
+	utils.Log.Info("http" + "://" + configs.HttpLoopAddr + configs.HttpListenPort)
+	utils.Log.Info("http" + "://" + configs.Localhost + configs.HttpListenPort)
 	Gin.Run(configs.HttpListenPort)
 }
