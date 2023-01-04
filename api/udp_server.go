@@ -23,9 +23,13 @@ const voice5 = "5" // 5 准许通过
 
 var Conn *net.UDPConn
 
-func RunUDP(address string) {
+func RunUDP(port string) {
+	ipv4, err := utils.GetOutboundIP()
+	if err != nil {
+		panic("未获取到本机IP地址")
+	}
 	// 创建 服务器 UDP 地址结构。指定 IP + port
-	udpAddr, err := net.ResolveUDPAddr("udp", address)
+	udpAddr, err := net.ResolveUDPAddr("udp", ipv4.String()+":"+port)
 	if err != nil {
 		utils.Log.Error(err)
 		return
@@ -60,44 +64,52 @@ func handelUDP(conn *net.UDPConn) {
 		utils.Log.Info(err.Error())
 	}
 	eventLog := db.EventLog{}
+
 	if isCheck {
-		sendSwipeEvent(eventLog, msg)
-		id := msg[2:26]                                     // 主板id 设备序列号
+		sn := msg[2:26]                                     // 主板id 设备序列号
 		number := msg[26:27]                                // 门号
 		portType := msg[27:28]                              // 端口进出 1-进 2-出
 		verifyType := msg[28:29]                            // 刷卡类型 默认1
 		cardNo := msg[31 : bytes.Count([]byte(msg), nil)-4] // 卡号
-		utils.Log.Info(id, number, portType, verifyType, cardNo)
-		swipeTicket(msg)
+		utils.Log.Info(sn, number, portType, verifyType, cardNo)
+		device := db.Device{}
+		err = db.GetDevice(sn, &device).Error
+		if err != nil {
+			utils.Log.Error("该设备未注册")
+			return
+		}
+		eventLog.DeviceName = device.Tag
+		sendSwipeEvent(eventLog, msg)
 		result, ok := icbc.CheckTicket(cardNo, "002")
 		utils.Log.Info(result, ok)
 		if ok {
-			OpenGate(id, clientAddress.IP.String())
+			OpenGate(sn, clientAddress.IP.String())
 			sendCheckEvent(eventLog, "验票成功")
 			if !configs.PassedVerifyMode {
 				sendVerifyEvent(eventLog)
 			}
 		} else {
-			ErrorTip(id, clientAddress.IP.String())
+			ErrorTip(sn, clientAddress.IP.String())
 			sendCheckEvent(eventLog, "验票失败")
 		}
-		db.AddEvent(&eventLog)
-		db.TotalUpAdd(number)
 		return
 	}
-
 	isPassed, err := isPassed(msg)
 	if err != nil {
 		utils.Log.Info(err.Error())
 	}
 	if isPassed {
+		sn := msg[2:26]
+		device := db.Device{}
+		err = db.GetDevice(sn, &device).Error
+		eventLog.DeviceName = device.Tag
+		db.TotalUpAdd(sn)
 		sendPassedEvent(eventLog, msg)
 		sendTotalMsg()
 		utils.Log.Info(msg)
 		return
 	}
-	//var str =[]byte(" $F12345678F$")
-
+	utils.Log.Error("接收到位置消息", msg)
 }
 
 // 统计变更
@@ -129,37 +141,41 @@ func sendTotalMsg() {
 	totalVo.DeviceTotal = data
 	SendMsg(entity.Pack(entity.TYPE_TOTAL, totalVo))
 }
+
+// 过闸事件
 func sendPassedEvent(eventLog db.EventLog, msg string) {
 	eventLog.Tag = "过闸"
 	eventLog.Time = utils.NowTimeStr()
 	eventLog.Content = msg
+	db.AddEvent(&eventLog)
 	SendMsg(entity.Pack(entity.TYPE_EVENT, []db.EventLog{eventLog}))
 }
+
+// 刷票事件
 func sendSwipeEvent(eventLog db.EventLog, msg string) {
 	eventLog.Tag = "刷卡"
 	eventLog.Time = utils.NowTimeStr()
 	eventLog.Content = msg
+	db.AddEvent(&eventLog)
 	SendMsg(entity.Pack(entity.TYPE_EVENT, []db.EventLog{eventLog}))
 }
+
+// 验票事件
 func sendCheckEvent(eventLog db.EventLog, tip string) {
 	eventLog.Tag = "验票"
 	eventLog.Time = utils.NowTimeStr()
 	eventLog.Content = tip
+	db.AddEvent(&eventLog)
 	SendMsg(entity.Pack(entity.TYPE_EVENT, []db.EventLog{eventLog}))
 }
+
+// 核销事件
 func sendVerifyEvent(eventLog db.EventLog) {
 	eventLog.Tag = "核销"
 	eventLog.Time = utils.NowTimeStr()
 	eventLog.Content = "核销？"
+	db.AddEvent(&eventLog)
 	SendMsg(entity.Pack(entity.TYPE_EVENT, []db.EventLog{eventLog}))
-}
-
-func swipeTicket(msg string) {
-	go func() {
-		log := db.EventLog{Tag: "刷票", Content: msg, Time: utils.NowTimeStr()}
-		db.AddEvent(&log)
-		SendMsg(entity.Pack(entity.TYPE_LOG, log))
-	}()
 }
 
 // OpenGate number 设备号 /*
@@ -173,12 +189,12 @@ func OpenGate(number string, ip string) {
 	Conn.WriteToUDP(bytes, &udpAddr)
 }
 
-func ErrorTip(number string, ip string) {
-	utils.Log.Info("错误播报", number, ip)
+func ErrorTip(sn string, ip string) {
+	utils.Log.Info("错误播报", sn, ip)
 	udpAddr := net.UDPAddr{
 		IP: net.ParseIP(ip), Port: 60066,
 	}
-	cmd := pack(number, resultFail, voice2)
+	cmd := pack(sn, resultFail, voice2)
 	Conn.WriteToUDP([]byte(cmd), &udpAddr)
 }
 

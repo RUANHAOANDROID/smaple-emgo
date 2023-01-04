@@ -2,6 +2,7 @@ package desktop
 
 func Run() {
 	//web1()
+	//web2()
 }
 
 // linux win7

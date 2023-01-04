@@ -10,13 +10,13 @@ import (
 )
 
 func main() {
-	api.RunUDP(configs.UDPListenAddr)
+	api.RunUDP(configs.UDPListenPort)
 	gin.SetMode(gin.DebugMode)
+	go timertask.RunDeviceStatic()
 	if configs.EnableDesktop {
 		go api.Run()
 		desktop.Run()
 	} else {
-		go timertask.RunKeepLive()
 		api.Run()
 	}
 }

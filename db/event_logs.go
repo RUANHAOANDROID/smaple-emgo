@@ -1,10 +1,11 @@
 package db
 
 type EventLog struct {
-	Id      uint   `gorm:"primaryKey"`
-	Tag     string `json:"tag"`
-	Content string `json:"content"`
-	Time    string `json:"time"`
+	Id         uint   `gorm:"primaryKey"`
+	Tag        string `json:"tag"`
+	Content    string `json:"content"`
+	DeviceName string `json:"deviceName"`
+	Time       string `json:"time"`
 }
 
 func AddEvent(log *EventLog) error {
