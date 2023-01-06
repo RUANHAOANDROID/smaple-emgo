@@ -11,10 +11,10 @@ import (
 )
 
 func RunDeviceStatic() {
-	timer := time.NewTimer(3 * time.Second)
+	timer := time.NewTimer(10 * time.Second)
 	defer timer.Stop()
 	for {
-		timer.Reset(3 * time.Second) // 这里复用了 timer
+		timer.Reset(10 * time.Second) // 这里复用了 timer
 		select {
 		case <-timer.C:
 			fmt.Println("timer task:hardware static info .......")
@@ -37,15 +37,18 @@ func testData() {
 }
 
 func sendEvents() {
-	var event []db.EventLog
-	err := db.GetEvents(&event)
+	var events []db.EventLog
+	err := db.GetEvents(&events)
+	count, err := db.GetEventsByDay(&events, "2023-01-06", "武汉测试闸", 1, 10)
 	if err != nil {
 		utils.Log.Error(err)
 	}
-	if event != nil {
-		event[0].Time = utils.Fmt2HMS(time.Now())
-		api.SendMsg(entity.Pack(entity.TYPE_EVENT, event))
+	print(count)
+	if events != nil {
+		events[0].Time = utils.Fmt2HMS(time.Now())
+		api.SendMsg(entity.Pack(entity.TYPE_EVENT, events))
 	}
+
 }
 
 func sendDeviceTotal() {
