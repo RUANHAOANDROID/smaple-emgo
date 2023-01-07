@@ -37,7 +37,7 @@ func getEvents() gin.HandlerFunc {
 		if err != nil {
 			print(err.Error())
 		}
-		err = db.GetEventsPage(&count, &events, request.Date, request.DeviceName, request.PageNo, request.PageSize)
+		err = db.GetEventsPage(&count, &events, request.Date, request.DeviceName, request.Type, request.PageNo, request.PageSize)
 		response := entity.Page{Count: count, Data: events}
 		c.JSON(http.StatusOK, response)
 	}
@@ -67,6 +67,7 @@ func delete() gin.HandlerFunc {
 		c.JSON(http.StatusOK, response)
 	}
 }
+
 func list() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var devices []db.Device

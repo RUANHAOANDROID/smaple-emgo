@@ -5,6 +5,7 @@ type DeviceDelete struct {
 }
 type GetEventsPage struct {
 	Date       string `json:"date"`
+	Type       string `json:"type"`
 	PageNo     int    `json:"pageNo"`
 	PageSize   int    `json:"pageSize"`
 	DeviceName string `json:"deviceName"`

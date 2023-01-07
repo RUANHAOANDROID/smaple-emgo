@@ -31,11 +31,18 @@ func GetEventsByDay(events *[]EventLog, day string, device string, offset int, l
 	err = eventTab.Offset(offset).Limit(limit).Find(&events).Error //查询pageindex页的数据
 	return count, err
 }
-func GetEventsPage(count *int64, events *[]EventLog, day string, device string, offset int, limit int) error {
+func GetEventsPage(
+	count *int64, events *[]EventLog,
+	day string, device string, eventType string,
+	offset int, limit int,
+) error {
 	eventTab := DB.Model(&EventLog{})
 	eventTab.Where("date(time)=?", day)
 	if device != "全部设备" {
 		eventTab.Where("device_name=?", device)
+	}
+	if eventType != "事件" {
+		eventTab.Where("tag=?", eventType)
 	}
 	err := eventTab.Count(count).Error
 	if err != nil {
