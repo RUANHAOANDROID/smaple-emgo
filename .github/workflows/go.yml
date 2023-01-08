@@ -29,7 +29,8 @@ jobs:
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with: # 将下述可执行文件 release 上去
+        # 将下述可执行文件 release 上去
+        with:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
           body: |
