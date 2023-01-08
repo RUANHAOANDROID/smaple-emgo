@@ -7,9 +7,7 @@ on:
   push:
     branches: [ "lite" ]
     tags:
-      - v1.**
-#  pull_request:
-#    branches: [ "lite" ]
+      - v*
 
 jobs:
 
@@ -30,6 +28,8 @@ jobs:
 
       - name: Release
         uses: softprops/action-gh-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with: # 将下述可执行文件 release 上去
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
