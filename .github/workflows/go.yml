@@ -24,8 +24,8 @@ jobs:
       - name: Build
         run: go build -v ./...
       - run: go build -v -o linux_amd64 ./ # 这 3 条是交叉编译 Go 的指令，酌情修改。
-      - run: CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -v -o oj_windows_amd64.exe ./
-      - run: CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -v -o oj_darwin_amd64 ./
+      - run: CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -v -o windows_amd64.exe ./
+      - run: CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -v -o darwin_amd64 ./
 
       - name: Release
         uses: softprops/action-gh-release@v1
