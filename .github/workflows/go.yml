@@ -25,10 +25,10 @@ jobs:
       - run: go build -v -o linux_amd64 ./
       #- run: CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -v -o windows_amd64.exe ./
       #- run: CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -v -o darwin_amd64 ./
-
-      - name: Release
-        uses: softprops/action-gh-release@v1
-
+      - name: Create Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with: # 将下述可执行文件 release 上去
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
@@ -40,5 +40,3 @@ jobs:
             prerelease: false
           files: |
             linux_amd64
-          env:
-              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
