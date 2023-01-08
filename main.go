@@ -8,6 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// start
 func main() {
 	api.RunUDP(configs.UDPListenPort)
 	gin.SetMode(gin.DebugMode)
