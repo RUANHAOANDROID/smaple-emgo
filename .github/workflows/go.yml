@@ -28,7 +28,6 @@ jobs:
       - run: CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -v -o oj_darwin_amd64 ./
 
       - name: Release
-        tag_name: ${{ github.ref }}
         uses: softprops/action-gh-release@v1
         with: # 将下述可执行文件 release 上去
           files: |
