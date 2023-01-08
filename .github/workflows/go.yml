@@ -6,8 +6,10 @@ name: Go
 on:
   push:
     branches: [ "lite" ]
-  pull_request:
-    branches: [ "lite" ]
+    tags:
+      - v1.**
+#  pull_request:
+#    branches: [ "lite" ]
 
 jobs:
 
