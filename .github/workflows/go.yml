@@ -23,6 +23,7 @@ jobs:
 
       - name: Build
       - run: go build -v -o linux_amd64 ./
+      - run: go build -v ./...
       - run: CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -v -o windows_amd64.exe ./
       - run: CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -v -o darwin_amd64 ./
       - name: Create Release
