@@ -18,14 +18,14 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: 环境
+      - name: setup->>>>
         uses: actions/setup-go@v3
         with:
           go-version: 1.19
 
-      - name: build
+      - name: build->>>>
         run: go build -v -o linux_amd64 ./
-      - name:  Release
+      - name: release->>>>
         uses: softprops/action-gh-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
