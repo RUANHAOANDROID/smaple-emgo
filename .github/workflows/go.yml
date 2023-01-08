@@ -34,3 +34,5 @@ jobs:
             linux_amd64
             windows_amd64.exe
             darwin_amd64
+            env:
+              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
