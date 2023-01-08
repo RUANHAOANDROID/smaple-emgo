@@ -28,8 +28,7 @@ jobs:
 
       - name: Release
         uses: softprops/action-gh-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
         with: # 将下述可执行文件 release 上去
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
@@ -41,5 +40,5 @@ jobs:
             prerelease: false
           files: |
             linux_amd64
-            env:
+          env:
               GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
