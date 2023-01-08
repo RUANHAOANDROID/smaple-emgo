@@ -32,6 +32,14 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v1
         with: # 将下述可执行文件 release 上去
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: |
+            Changes in this Release
+            - First Change
+            - Second Change
+            draft: false
+            prerelease: false
           files: |
             linux_amd64
             windows_amd64.exe
