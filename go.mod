@@ -14,21 +14,18 @@ require (
 )
 
 require (
+	github.com/gin-contrib/static v0.0.1
 	github.com/gorilla/websocket v1.5.0
-	github.com/jchv/go-webview2 v0.0.0-20221027045535-e2a104b55541
 	github.com/shirou/gopsutil v3.21.11+incompatible
-	github.com/webview/webview v0.0.0-20230102133235-36bbd1c79ac6
 )
 
 require (
 	github.com/fastly/go-utils v0.0.0-20180712184237-d95a45783239 // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
-	github.com/gin-contrib/static v0.0.1 // indirect
 	github.com/go-ole/go-ole v1.2.6 // indirect
 	github.com/go-playground/locales v0.14.0 // indirect
 	github.com/go-playground/universal-translator v0.18.0 // indirect
 	github.com/go-playground/validator/v10 v10.10.0 // indirect
-	github.com/jchv/go-winloader v0.0.0-20200815041850-dec1ee9a7fd5 // indirect
 	github.com/jehiah/go-strftime v0.0.0-20171201141054-1d33003b3869 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/jonboulle/clockwork v0.3.0 // indirect

@@ -90,7 +90,7 @@ func handelUDP(conn *net.UDPConn) {
 			}
 		} else {
 			ErrorTip(sn, clientAddress.IP.String())
-			sendCheckEvent(eventLog, "验票失败")
+			sendCheckEvent(eventLog, "验票失败,"+result)
 		}
 		return
 	}

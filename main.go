@@ -1,7 +1,6 @@
 package main
 
 import (
-	_ "embed"
 	"emcs-relay-go/api"
 	"emcs-relay-go/configs"
 	"emcs-relay-go/desktop"
