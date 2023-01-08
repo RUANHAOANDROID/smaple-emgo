@@ -1,25 +1,20 @@
 package desktop
 
-import (
-	"emcs-relay-go/configs"
-	"github.com/webview/webview"
-	//"github.com/webview/webview"
-)
-
 func Run() {
-	web1()
+	//web1()
+	//web2()
 }
 
 // linux win7
-func web1() {
-	w := webview.New(true)
-	Web := w
-	defer Web.Destroy()
-	w.SetTitle("设备中继器")
-	w.SetSize(1600, 900, webview.HintNone)
-	w.Navigate(configs.IndexHtml)
-	w.Run()
-}
+//func web1() {
+//	w := webview.New(true)
+//	Web := w
+//	defer Web.Destroy()
+//	w.SetTitle("设备中继器")
+//	w.SetSize(1600, 900, webview.HintNone)
+//	w.Navigate(configs.IndexHtml)
+//	w.Run()
+//}
 
 // win10 win11
 func web2() {

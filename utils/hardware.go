@@ -4,6 +4,7 @@ import (
 	"github.com/shirou/gopsutil/cpu"
 	"github.com/shirou/gopsutil/disk"
 	"github.com/shirou/gopsutil/mem"
+	"net"
 	"os"
 	"path/filepath"
 	"time"
@@ -59,4 +60,10 @@ func getFileSize(path string) int64 {
 func exists(path string) bool {
 	_, err := os.Stat(path)
 	return err == nil || os.IsExist(err)
+}
+func GetOutboundIP() (net.IP, error) {
+	conn, err := net.Dial("udp", "114.114.114.114:80")
+	defer conn.Close()
+	localAddr := conn.LocalAddr().(*net.UDPAddr)
+	return localAddr.IP, err
 }

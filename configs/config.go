@@ -6,8 +6,9 @@ const (
 	Localhost      = "localhost"
 	HttpLoopAddr   = "127.0.0.1"
 	HttpListenPort = ":8888"
-	UDPListenAddr  = "127.0.0.1:60000" //gate config D_IP_Addr
-	IndexHtml      = "http://127.0.0.1:8888/index"
+	UDPListenIP    = "192.168.1.121" //gate config D_IP_Addr
+	UDPListenPort  = "60000"         //gate config D_IP_Addr
+	IndexHtml      = "http://127.0.0.1:8888"
 	//PlatformUrl    = "http://39.100.224.245:8194"
 	PlatformUrl      = "http://127.0.0.1:8194"
 	EmcsMD5Key       = "~yc2022XwEmcs"

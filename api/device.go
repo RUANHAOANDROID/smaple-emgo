@@ -1,6 +1,7 @@
 package api
 
 import (
+	"emcs-relay-go/api/entity"
 	"emcs-relay-go/db"
 	"emcs-relay-go/utils"
 	"fmt"
@@ -16,6 +17,30 @@ func HandlerDeviceManager(r *gin.RouterGroup) {
 	r.POST("/add", add())
 	r.POST("/update", update())
 	r.POST("/openGateTest", openGateTest())
+	r.POST("/getEvents", getEvents())
+}
+
+func getEvents() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		//var res map[string]string
+		//c.ShouldBindJSON(&res)
+		//date := res["date"]
+		//pageNo, _ := strconv.Atoi(res["pageNo"])
+		//pageSize, _ := strconv.Atoi(res["pageSize"])
+		//deviceName := res["deviceName"]
+		//print(date, pageNo, pageSize, deviceName)
+		count := int64(0)
+		var events []db.EventLog
+		//err := db.GetEventsPage(&count, &events, date, deviceName, pageNo, pageSize)
+		request := entity.GetEventsPage{}
+		err := c.ShouldBindJSON(&request)
+		if err != nil {
+			print(err.Error())
+		}
+		err = db.GetEventsPage(&count, &events, request.Date, request.DeviceName, request.Type, request.PageNo, request.PageSize)
+		response := entity.Page{Count: count, Data: events}
+		c.JSON(http.StatusOK, response)
+	}
 }
 func openGateTest() gin.HandlerFunc {
 	return func(c *gin.Context) {
@@ -42,6 +67,7 @@ func delete() gin.HandlerFunc {
 		c.JSON(http.StatusOK, response)
 	}
 }
+
 func list() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var devices []db.Device
