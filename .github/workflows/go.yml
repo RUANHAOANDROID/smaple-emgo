@@ -42,6 +42,7 @@ jobs:
           files: |
             linux_amd64
 
+
 #-----------------2
 #name: Go
 #
