@@ -1,8 +1,14 @@
 package desktop
 
+import (
+	"emcs-relay-go/configs"
+	"github.com/jchv/go-webview2"
+	"log"
+)
+
 func Run() {
 	//web1()
-	//web2()
+	web2()
 }
 
 // linux win7
@@ -18,12 +24,12 @@ func Run() {
 
 // win10 win11
 func web2() {
-	//w := webview2.New(true)
-	//if w == nil {
-	//	log.Fatalln("Failed to load webview.")
-	//}
-	//defer w.Destroy()
-	//w.SetSize(1400, 900, webview2.HintFixed)
-	//w.Navigate(configs.IndexHtml)
-	//w.Run()
+	w := webview2.New(true)
+	if w == nil {
+		log.Fatalln("Failed to load webview.")
+	}
+	defer w.Destroy()
+	w.SetSize(1400, 900, webview2.HintFixed)
+	w.Navigate(configs.IndexHtml)
+	w.Run()
 }

@@ -25,8 +25,7 @@ jobs:
 
       - name: build linux->>>>
         run: go build -v -o linux_amd64 ./
-      - nmae: build windows->>>
-          run: CGO_ENABLED=1 GOOS=windows GOARCH=amd64 go build -v -o windows_amd64.exe ./
+      - run: CGO_ENABLED=1 GOOS=windows GOARCH=amd64 go build -v -o windows_amd64.exe ./
 #      - name: build
 #        run: CGO_ENABLED=1 GOOS=darwin GOARCH=amd64 go build -v -o darwin_amd64 ./
       - name: release->>>>
