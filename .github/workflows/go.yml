@@ -23,10 +23,11 @@ jobs:
         with:
           go-version: 1.19
 
-      - name: build->>>>
+      - name: build linux->>>>
         run: go build -v -o linux_amd64 ./
       - run: CGO_ENABLED=1 GOOS=windows GOARCH=amd64 go build -v -o windows_amd64.exe ./
-      - run: CGO_ENABLED=1 GOOS=darwin GOARCH=amd64 go build -v -o darwin_amd64 ./
+#      - name: build
+#        run: CGO_ENABLED=1 GOOS=darwin GOARCH=amd64 go build -v -o darwin_amd64 ./
       - name: release->>>>
         uses: softprops/action-gh-release@v1
         env:
@@ -44,7 +45,7 @@ jobs:
           files: |
             linux_amd64
             windows_amd64
-            darwin_amd64
+#            darwin_amd64
 
 #-----------------2
 #name: Go
