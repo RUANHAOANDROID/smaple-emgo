@@ -25,7 +25,7 @@ jobs:
 
       - name: build linux->>>>
         run: CGO_ENABLED=1 go build -v -o linux_amd64 ./
-      - run: CGO_ENABLED=1 GOOS=windows GOARCH=amd64 go build -v -o windows_amd64.exe ./
+#      - run: CGO_ENABLED=1 GOOS=windows GOARCH=amd64 go build -v -o windows_amd64.exe ./
 #      - name: build
 #        run: CGO_ENABLED=1 GOOS=darwin GOARCH=amd64 go build -v -o darwin_amd64 ./
       - name: release->>>>
@@ -44,7 +44,7 @@ jobs:
             prerelease: false
           files: |
             linux_amd64
-            windows_amd64
+#            windows_amd64
 #            darwin_amd64
 
 #-----------------2
