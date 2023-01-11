@@ -13,6 +13,8 @@ go 简单的示例包括了：
 因为使用了sqlite3需要开启CGO CGO_ENABLED=1
 
 ### 静态文件服务
+package flutter
+
 import "embed"
 
 //go:embed assets/* 
