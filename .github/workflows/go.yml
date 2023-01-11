@@ -8,8 +8,6 @@ on:
     branches: [ "lite" ]
     tags:
       - v*
-  pull_request:
-    branches: [ "lite" ]
 
 jobs:
 
