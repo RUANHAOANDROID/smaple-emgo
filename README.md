@@ -15,15 +15,15 @@ go 简单的示例包括了：
 ### 静态文件服务
 import "embed"
 
-//go:embed assets/*
-//go:embed canvaskit/*
-//go:embed icons/*
-//go:embed .last_build_id
-//go:embed favicon.png
-//go:embed flutter_service_worker.js
-//go:embed index.html
-//go:embed main.dart.js
-//go:embed manifest.json
-//go:embed version.json
-var Static embed.FS
+//go:embed assets/* 
+//go:embed canvaskit/*  
+//go:embed icons/*  
+//go:embed .last_build_id 
+//go:embed favicon.png  
+//go:embed flutter_service_worker.js  
+//go:embed index.html 
+//go:embed main.dart.js 
+//go:embed manifest.json  
+//go:embed version.json 
+var Static embed.FS 
 
